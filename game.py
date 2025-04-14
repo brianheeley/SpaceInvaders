@@ -5,6 +5,8 @@ from bullets import BulletManager, EnemyBulletManager
 from enemies import EnemyManager
 
 
+# HELLO
+
 def show_main_menu():
     stddraw.clear(stddraw.GRAY)
 
