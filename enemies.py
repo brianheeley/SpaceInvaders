@@ -1,0 +1,94 @@
+import stddraw
+import random
+import picture
+
+class Enemy:
+    def __init__(self, x, y, width, height):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.direction = 0
+        self.pic = picture.Picture('alien.png')
+
+    def move(self, dx, dy):
+        self.x += dx
+        self.y += dy
+
+    def draw(self):
+        stddraw.setPenColor(stddraw.RED)
+        stddraw.picture(self.pic,
+            self.x, self.y - self.height / 2, self.width, self.height
+        )
+
+
+class EnemyManager:
+    def __init__(self, num_enemies, num_rows, cooldown):
+        self.num_enemies = num_enemies
+        self.num_rows = num_rows
+        self.cooldown = cooldown
+        self.current_cooldown = cooldown
+        self.enemies = []
+        self.move_right = True
+        self.move_speed = 10
+        self.populate()
+
+    def create_enemy(self, x, y, width, height):
+        self.enemies.append(Enemy(x, y, width, height))
+
+    def populate(self):
+
+        x_spacing = 700 / (self.num_enemies + 1)
+        start_y = 550
+
+        for row in range(self.num_rows):
+            current_y = start_y - row * 50
+            for col in range(self.num_enemies):
+                current_x = x_spacing * (col + 1)
+                self.create_enemy(current_x, current_y, 40, 20)
+
+    def update(self):
+
+        if self.current_cooldown <= 0:
+            should_change_direction = False
+
+            for enemy in self.enemies:
+                if (self.move_right and enemy.x + enemy.width / 2 > 750) or (
+                    not self.move_right and enemy.x - enemy.width / 2 < 50
+                ):
+                    should_change_direction = True
+                    break
+
+            dx = self.move_speed if self.move_right else -self.move_speed
+            dy = 0
+
+            if should_change_direction:
+                self.move_right = not self.move_right
+                dx = 0
+                dy = -20
+
+            for enemy in self.enemies:
+                enemy.move(dx, dy)
+
+            self.current_cooldown = self.cooldown
+        else:
+            self.current_cooldown -= 1
+
+        for enemy in self.enemies:
+            enemy.draw()
+
+    def check_reached_bottom(self, player_top_y):
+        for enemy in self.enemies:
+            if enemy.y - enemy.height / 2 <= player_top_y:
+                return True
+        return False
+
+    def shoot(self, enemy_bullet_manager, chance):
+
+        if self.current_cooldown == 0 and random.random() < chance:
+            shooter_index = int(random.random() * len(self.enemies))
+            if shooter_index < len(self.enemies):
+                shooter = self.enemies[shooter_index]
+                enemy_bullet_manager.create_bullet(
+                    shooter.x, shooter.y - shooter.height / 2
+                )
