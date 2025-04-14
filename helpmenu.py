@@ -6,7 +6,8 @@ import sys
 from picture import Picture
 import gameinterface
 
-#defining help function that gives instructions when [H] is pressed
+
+# defining help function that gives instructions when [H] is pressed
 def help():
 
     helpBackground = Picture("assets/helpBackground.jpg")

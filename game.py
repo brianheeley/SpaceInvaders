@@ -4,6 +4,7 @@ from turret import Turret
 from bullets import BulletManager, EnemyBulletManager
 from enemies import EnemyManager
 import gameinterface
+from picture import Picture
 
 
 def game_over_screen(score):
@@ -29,6 +30,8 @@ def main():
     stddraw.setXscale(0, 800)
     stddraw.setYscale(0, 600)
 
+    background = Picture("assets/gameBackground.jpg")
+
     game_state = "menu"
     score = 0
     game_running = True
@@ -42,7 +45,13 @@ def main():
         stddraw.clear(stddraw.BLACK)
         keys = stddraw.getKeysPressed()
 
-        if keys[stddraw.K_ESCAPE]:
+        if keys[stddraw.K_ESCAPE] or keys[stddraw.K_x]:
+            stddraw.clear(stddraw.BLACK)
+            stddraw.setPenColor(stddraw.BLUE)
+            stddraw.setFontSize(25)
+            stddraw.text(400, 300, "Exiting...")
+            stddraw.show(1000)
+
             game_running = False
 
         if game_state == "menu":
@@ -59,6 +68,7 @@ def main():
 
         if game_state == "playing":
             stddraw.clear(stddraw.BLACK)
+            stddraw.picture(background)
 
             player.move(keys)
             turret.update(keys)
