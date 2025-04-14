@@ -9,7 +9,7 @@ class Enemy:
         self.width = width
         self.height = height
         self.direction = 0
-        self.pic = picture.Picture('alien.png')
+        self.pic = picture.Picture('assets/alien.png')
 
     def move(self, dx, dy):
         self.x += dx

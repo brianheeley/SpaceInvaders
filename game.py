@@ -3,29 +3,7 @@ from player import Player
 from turret import Turret
 from bullets import BulletManager, EnemyBulletManager
 from enemies import EnemyManager
-
-
-# HELLO
-
-def show_main_menu():
-    stddraw.clear(stddraw.GRAY)
-
-    stddraw.setPenColor(stddraw.RED)
-    stddraw.setFontSize(40)
-    stddraw.text(400, 450, "SPACE INVADERS")
-
-    stddraw.setPenColor(stddraw.BLACK)
-    stddraw.setFontSize(20)
-    stddraw.text(400, 350, "Controls:")
-    stddraw.text(400, 320, "A/D - Move Left/Right")
-    stddraw.text(400, 290, "Q/E - Rotate Turret")
-    stddraw.text(400, 260, "SPACE - Shoot")
-    stddraw.text(400, 230, "ESC - Exit Game")
-
-    stddraw.setFontSize(30)
-    stddraw.text(400, 170, "Press ANY KEY to start game")
-
-    stddraw.show(10)
+import gameinterface
 
 
 def game_over_screen(score):
@@ -68,7 +46,7 @@ def main():
             game_running = False
 
         if game_state == "menu":
-            show_main_menu()
+            gameinterface.titleScreen()
             if keys[stddraw.K_SPACE]:
                 game_state = "playing"
 
