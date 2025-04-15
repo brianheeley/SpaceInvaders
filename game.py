@@ -68,7 +68,9 @@ def main():
 
         if game_state == "playing":
             stddraw.clear(stddraw.BLACK)
-            stddraw.picture(background)
+
+            # Currently disabled due to non transparent sprites
+            # stddraw.picture(background)
 
             player.move(keys)
             turret.update(keys)
