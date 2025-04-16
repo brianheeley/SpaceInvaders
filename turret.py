@@ -7,7 +7,7 @@ class Turret:
         self.player = player
         self.angle = angle
         self.speed = speed
-        self.length = player.width / 2
+        self.length = player.width / 3
         self.end_x = 0
         self.end_y = 0
         self.update_end()
@@ -30,7 +30,7 @@ class Turret:
         self.update_end()
 
     def draw(self):
-        stddraw.setPenColor(stddraw.RED)
+        stddraw.setPenColor(stddraw.DARK_GRAY)
         stddraw.setPenRadius(2.5)
         stddraw.line(
             self.player.x,

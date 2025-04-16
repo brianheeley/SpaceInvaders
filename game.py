@@ -59,7 +59,7 @@ def main():
             if keys[stddraw.K_SPACE]:
                 game_state = "playing"
 
-                player = Player(400, 50, 50, 30, 2)
+                player = Player(400, 100, 49, 62, 2)
                 turret = Turret(player, 90, 1)
                 bullet_manager = BulletManager(5, 4, 3)
                 enemy_bullet_manager = EnemyBulletManager(10, 4, 3)
