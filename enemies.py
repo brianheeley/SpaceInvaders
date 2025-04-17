@@ -2,6 +2,7 @@ import stddraw
 import random
 import picture
 
+
 class Enemy:
     def __init__(self, x, y, width, height):
         self.x = x
@@ -9,7 +10,7 @@ class Enemy:
         self.width = width
         self.height = height
         self.direction = 0
-        self.pic = picture.Picture('alien.png')
+        self.pic = picture.Picture("assets/alien.png")
 
     def move(self, dx, dy):
         self.x += dx
@@ -17,8 +18,8 @@ class Enemy:
 
     def draw(self):
         stddraw.setPenColor(stddraw.RED)
-        stddraw.picture(self.pic,
-            self.x, self.y - self.height / 2, self.width, self.height
+        stddraw.picture(
+            self.pic, self.x, self.y - self.height / 2, self.width, self.height
         )
 
 
