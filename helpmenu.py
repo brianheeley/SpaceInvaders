@@ -5,7 +5,10 @@ import stdaudio
 import sys
 from picture import Picture
 import gameinterface
+import threading
 
+def playClick():
+    stdaudio.playFile("clickSound")
 
 # defining help function that gives instructions when [H] is pressed
 def help():
@@ -44,5 +47,7 @@ def help():
             selectedKey = stddraw.nextKeyTyped()
             # return back to title page if [B] is pressed, otherwise continue displaying instructions
             if selectedKey == "B" or selectedKey == "b":
+                threading.Thread(target = playClick).start()
+                stddraw.clear()
                 stddraw.clear()
                 gameinterface.titleScreen()

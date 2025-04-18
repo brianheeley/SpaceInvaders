@@ -3,30 +3,8 @@ from player import Player
 from turret import Turret
 from bullets import BulletManager, EnemyBulletManager
 from enemies import EnemyManager
-
-
-
-# HELLO
-
-def show_main_menu():
-    stddraw.clear(stddraw.GRAY)
-
-    stddraw.setPenColor(stddraw.RED)
-    stddraw.setFontSize(40)
-    stddraw.text(400, 450, "SPACE INVADERS")
-
-    stddraw.setPenColor(stddraw.BLACK)
-    stddraw.setFontSize(20)
-    stddraw.text(400, 350, "Controls:")
-    stddraw.text(400, 320, "A/D - Move Left/Right")
-    stddraw.text(400, 290, "Q/E - Rotate Turret")
-    stddraw.text(400, 260, "SPACE - Shoot")
-    stddraw.text(400, 230, "ESC - Exit Game")
-
-    stddraw.setFontSize(30)
-    stddraw.text(400, 170, "Press ANY KEY to start game")
-
-    stddraw.show(10)
+import gameinterface
+from picture import Picture
 
 
 def game_over_screen(score):
@@ -52,6 +30,8 @@ def main():
     stddraw.setXscale(0, 800)
     stddraw.setYscale(0, 600)
 
+    background = Picture("assets/gameBackground.jpg")
+
     game_state = "menu"
     score = 0
     game_running = True
@@ -65,15 +45,21 @@ def main():
         stddraw.clear(stddraw.BLACK)
         keys = stddraw.getKeysPressed()
 
-        if keys[stddraw.K_ESCAPE]:
+        if keys[stddraw.K_ESCAPE] or keys[stddraw.K_x]:
+            stddraw.clear(stddraw.BLACK)
+            stddraw.setPenColor(stddraw.BLUE)
+            stddraw.setFontSize(25)
+            stddraw.text(400, 300, "Exiting...")
+            stddraw.show(1000)
+
             game_running = False
 
         if game_state == "menu":
-            
+            gameinterface.titleScreen()
             if keys[stddraw.K_SPACE]:
                 game_state = "playing"
-                show_main_menu()
-                player = Player(400, 50, 50, 30, 2)
+
+                player = Player(400, 100, 49, 62, 2)
                 turret = Turret(player, 90, 1)
                 bullet_manager = BulletManager(5, 4, 3)
                 enemy_bullet_manager = EnemyBulletManager(10, 4, 3)
@@ -82,6 +68,9 @@ def main():
 
         if game_state == "playing":
             stddraw.clear(stddraw.BLACK)
+
+            # Currently disabled due to non transparent sprites
+            # stddraw.picture(background)
 
             player.move(keys)
             turret.update(keys)
