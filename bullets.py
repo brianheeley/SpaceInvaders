@@ -1,5 +1,6 @@
 import stddraw
 import math
+from sounds import SoundManager
 
 
 class Bullet:
@@ -39,6 +40,9 @@ class BulletManager:
 
             self.current_cooldown = self.cooldown
 
+            SoundManager.play_sound("assets/playerShoot")
+
+
     def update(self):
         stddraw.setPenColor(stddraw.WHITE)
 
@@ -74,9 +78,11 @@ class BulletManager:
                     and bullet.y > enemy.y - enemy.height / 2
                     and bullet.y < enemy.y + enemy.height / 2
                 ):
+                    enemy.drawExplosion()
                     bullets_to_remove.append(i)
                     enemies_to_remove.append(j)
                     score += 10
+                    stddraw.show(100)
                     break
 
         for i in sorted(bullets_to_remove, reverse=True):
@@ -86,6 +92,9 @@ class BulletManager:
         for i in sorted(enemies_to_remove, reverse=True):
             if i < len(enemy_manager.enemies):
                 enemy_manager.enemies.pop(i)
+
+                SoundManager.play_sound("assets/explode")
+
 
         return score
 
