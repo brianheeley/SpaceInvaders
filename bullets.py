@@ -36,7 +36,7 @@ class BulletManager:
     def create_bullet(self, x, y, angle):
         if self.current_cooldown == 0 and len(self.bullets) < self.max_bullets:
 
-            # Spread shot activated 
+            # Spread shot activated
             if self.spreadshot:
                 dx = math.cos(math.randians(angle) + 0.1) * self.speed
                 dy = math.sin(math.randians(angle) + 0.1) * self.speed
@@ -45,7 +45,7 @@ class BulletManager:
                 dx = math.cos(math.randians(angle) - 0.1) * self.speed
                 dy = math.sin(math.randians(angle) - 0.1) * self.speed
                 self.bullets.append(Bullet(x, y, dx, dy, self.size))
-                
+
             # Normal bullet
             dx = math.cos(math.radians(angle)) * self.speed
             dy = math.sin(math.radians(angle)) * self.speed
@@ -54,7 +54,6 @@ class BulletManager:
             self.current_cooldown = self.cooldown
 
             SoundManager.play_sound("assets/playerShoot")
-
 
     def update(self):
         stddraw.setPenColor(stddraw.WHITE)
@@ -107,7 +106,6 @@ class BulletManager:
                 enemy_manager.enemies.pop(i)
 
                 SoundManager.play_sound("assets/explode")
-
 
         return score
 

@@ -16,8 +16,6 @@ class Turrent:
         self.score = score
         self.lastShootTime: float = lastShootTime
 
-
-
     def move(self, bRight: bool) -> None:
         if bRight == True:
             if self.x < 92.5:
@@ -26,7 +24,6 @@ class Turrent:
             if self.x > 7.5:
                 self.x -= 4
 
-
     def rotate(self, bRight: bool) -> None:
         if bRight == True:
             if self.rotAngle > 0:
@@ -34,7 +31,6 @@ class Turrent:
         else:
             if self.rotAngle < math.pi:
                 self.rotAngle += 0.1
-
 
     def draw(self):
         sd.setPenColor(color.YELLOW)
@@ -47,24 +43,45 @@ class Turrent:
         aimY: float = self.y + 3.5 * math.sin(self.rotAngle)
         sd.line(self.x, self.y, aimX, aimY)
 
+    def shoot(
+        self,
+        projectiles: list,
+        enemies: Enemies,
+        bShoot: bool,
+        shootTime: float,
+        puValue: int,
+        puActive: bool,
+    ):
 
-    def shoot(self, projectiles: list, enemies: Enemies, bShoot: bool, shootTime: float, puValue: int, puActive: bool):
-    
         if bShoot and (shootTime - self.lastShootTime >= self.reloadTime):
             # Add new projectile
             if puActive and puValue == 1:
-                s1Projectile = Projectile(self.x + 3.5 * math.cos(self.rotAngle - 0.1), self.y + 3.5 * math.sin(self.rotAngle - 0.1), self.rotAngle - 0.1, 15) 
-                s2Projectile = Projectile(self.x + 3.5 * math.cos(self.rotAngle + 0.1), self.y + 3.5 * math.sin(self.rotAngle + 0.1), self.rotAngle + 0.1, 15)
-            newProjectile = Projectile(self.x + 3.5 * math.cos(self.rotAngle), self.y + 3.5 * math.sin(self.rotAngle), self.rotAngle, 15)
+                s1Projectile = Projectile(
+                    self.x + 3.5 * math.cos(self.rotAngle - 0.1),
+                    self.y + 3.5 * math.sin(self.rotAngle - 0.1),
+                    self.rotAngle - 0.1,
+                    15,
+                )
+                s2Projectile = Projectile(
+                    self.x + 3.5 * math.cos(self.rotAngle + 0.1),
+                    self.y + 3.5 * math.sin(self.rotAngle + 0.1),
+                    self.rotAngle + 0.1,
+                    15,
+                )
+            newProjectile = Projectile(
+                self.x + 3.5 * math.cos(self.rotAngle),
+                self.y + 3.5 * math.sin(self.rotAngle),
+                self.rotAngle,
+                15,
+            )
             projectiles.append(newProjectile)
             self.lastShootTime = shootTime
-    
 
         for projectile in projectiles[:]:  # Test per projectile
             projectile.draw()
             projectile.move()
 
-            # Check for hit 
+            # Check for hit
             for enemy in enemies.enemies[:]:  # Test per enemy
                 if projectile.hit(enemy):
                     if enemy in enemies.enemies:
@@ -78,4 +95,3 @@ class Turrent:
                 projectiles.remove(projectile)
 
         return projectiles
-

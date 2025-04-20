@@ -13,7 +13,6 @@ class Player:
         self.pic = picture.Picture("assets/ship.jpg")
         self.lives = 3
 
-
     def move(self, keys):
         if keys[stddraw.K_a] and self.x > self.width / 2:
             self.x -= self.speed

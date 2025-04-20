@@ -25,9 +25,8 @@ class Enemy:
 
     def drawExplosion(self):
         stddraw.picture(
-                self.explosion, self.x, self.y - self.height/2, self.width,
-                self.height
-                )
+            self.explosion, self.x, self.y - self.height / 2, self.width, self.height
+        )
 
 
 class EnemyManager:

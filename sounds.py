@@ -2,11 +2,11 @@ import stdaudio
 import threading
 import time
 
+
 class SoundManager:
 
     _active_sounds = {}
     _lock = threading.Lock()
-
 
     @staticmethod
     def play_sound(file):
@@ -27,7 +27,7 @@ class SoundManager:
             except Exception as e:
                 print(f"Error playing {file}: {e}")
 
-        sound_thread = threading.Thread(target = _play_sound_thread)
+        sound_thread = threading.Thread(target=_play_sound_thread)
         sound_thread.daemon = True
         sound_thread.start()
 
