@@ -1,84 +1,102 @@
-import stddraw as sd
-import color
+import stddraw
 import random
-import math
-
-
-
-class Enemies:
-    
-    def __init__(self, enemies: list, bRight: bool, speed: float):
-        self.enemies: list[Enemy] = enemies
-        self.bRight: bool = bRight
-        self.speed: float = speed
-   
-    
-    def spawn(self, level: int) -> None:
-        self.speed = 0.5 * math.log(level) + 1
-        rows: int = random.randint(2, 4)
-        cols: int = random.randint(3, 5)
-
-        offset = random.randint(-7 , 99 - int(rows * 8))
-        for i in range(1,rows):
-            # Create list with type Enemy entries
-            for j in range(1,cols):
-                x: int = j * 8 + offset
-                y: int = i * 8 + 95
-                newEnemy = Enemy(x, y, self.speed, False)
-                self.enemies.append(newEnemy)
-
-
-    def move(self) -> None:
-        if not self.enemies:
-            return 
-        rightIndex: int = self.findRight()
-        leftIndex: int = self.findLeft()
-        if self.enemies[leftIndex].x <= 2.5:
-            self.bRight = True            
-        if self.enemies[rightIndex].x >= 97.5:
-            self.bRight = False
-        for i in range(len(self.enemies)):
-            self.enemies[i].move(self.bRight, self.speed)
-            self.enemies[i]._draw()
-            
-
-
-    def findRight(self) -> int:
-        mostIndex: int = 0
-        for i in range(1, len(self.enemies)):
-            if self.enemies[i].x > self.enemies[mostIndex].x: mostIndex = i
-        return mostIndex 
-
-
-    def findLeft(self) -> int:
-        mostIndex: int = 0
-        for i in range(1, len(self.enemies)):
-            if self.enemies[i].x < self.enemies[mostIndex].x: mostIndex = i
-        return mostIndex
-
-
-##########################################################################
+import picture
 
 
 class Enemy:
-    
-    def __init__(self, x, y, speed, bRight):
+    def __init__(self, x, y, width, height):
         self.x = x
         self.y = y
-        self.speed = speed
-        self.bRight = bRight
+        self.width = width
+        self.height = height
+        self.direction = 0
+        self.pic = picture.Picture("assets/alien.png")
+        self.explosion = picture.Picture("assets/explosion.jpg")
 
-    
-    def move(self, bRight, speed):
-        self.bRight = bRight 
-        self.speed = speed
-        self.y -= self.speed / 20
-        if self.bRight:
-            self.x += self.speed / 35
+    def move(self, dx, dy):
+        self.x += dx
+        self.y += dy
+
+    def draw(self):
+        stddraw.setPenColor(stddraw.RED)
+        stddraw.picture(
+            self.pic, self.x, self.y - self.height / 2, self.width, self.height
+        )
+
+    def drawExplosion(self):
+        stddraw.picture(
+                self.explosion, self.x, self.y - self.height/2, self.width,
+                self.height
+                )
+
+
+class EnemyManager:
+    def __init__(self, num_enemies, num_rows, cooldown):
+        self.num_enemies = num_enemies
+        self.num_rows = num_rows
+        self.cooldown = cooldown
+        self.current_cooldown = cooldown
+        self.enemies = []
+        self.move_right = True
+        self.move_speed = 10
+        self.populate()
+
+    def create_enemy(self, x, y, width, height):
+        self.enemies.append(Enemy(x, y, width, height))
+
+    def populate(self):
+
+        x_spacing = 700 / (self.num_enemies + 1)
+        start_y = 550
+
+        for row in range(self.num_rows):
+            current_y = start_y - row * 50
+            for col in range(self.num_enemies):
+                current_x = x_spacing * (col + 1)
+                self.create_enemy(current_x, current_y, 40, 20)
+
+    def update(self):
+
+        if self.current_cooldown <= 0:
+            should_change_direction = False
+
+            for enemy in self.enemies:
+                if (self.move_right and enemy.x + enemy.width / 2 > 750) or (
+                    not self.move_right and enemy.x - enemy.width / 2 < 50
+                ):
+                    should_change_direction = True
+                    break
+
+            dx = self.move_speed if self.move_right else -self.move_speed
+            dy = 0
+
+            if should_change_direction:
+                self.move_right = not self.move_right
+                dx = 0
+                dy = -20
+
+            for enemy in self.enemies:
+                enemy.move(dx, dy)
+
+            self.current_cooldown = self.cooldown
         else:
-            self.x -= self.speed / 35
+            self.current_cooldown -= 1
 
-    
-    def _draw(self):
-        sd.setPenColor(color.RED)
-        sd.filledCircle(self.x, self.y, 2.5)
+        for enemy in self.enemies:
+            enemy.draw()
+
+    def check_reached_bottom(self, player_top_y):
+        for enemy in self.enemies:
+            if enemy.y - enemy.height / 2 <= player_top_y:
+                return True
+        return False
+
+    def shoot(self, enemy_bullet_manager, chance):
+
+        if self.current_cooldown == 0 and random.random() < chance:
+            shooter_index = int(random.random() * len(self.enemies))
+            if shooter_index < len(self.enemies):
+                shooter = self.enemies[shooter_index]
+                enemy_bullet_manager.create_bullet(
+                    shooter.x, shooter.y - shooter.height / 2
+                )
