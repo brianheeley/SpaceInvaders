@@ -1,10 +1,13 @@
 import stddraw
+import gameinterface
+import random
 from player import Player
 from turret import Turret
 from bullets import BulletManager, EnemyBulletManager
 from enemies import EnemyManager
-import gameinterface
+from power_ups import PowerUpManager, PowerUp
 from picture import Picture
+
 
 
 def game_over_screen(score):
@@ -40,6 +43,7 @@ def main():
     move_cooldown = 30
     chance = 0.05
     win_state = False
+    b_power_up: bool = False
 
     while game_running:
         stddraw.clear(stddraw.BLACK)
@@ -58,12 +62,14 @@ def main():
             gameinterface.titleScreen()
             if keys[stddraw.K_SPACE]:
                 game_state = "playing"
-
+                
+                # Initialising entities
                 player = Player(400, 100, 49, 62, 2)
                 turret = Turret(player, 90, 1)
                 bullet_manager = BulletManager(5, 4, 3)
                 enemy_bullet_manager = EnemyBulletManager(10, 4, 3)
                 enemy_manager = EnemyManager(8, 4, move_cooldown)
+                power_up_manager = PowerUpManager(1)  # Temporary spawn rate of 1
                 score = 0
 
         if game_state == "playing":
@@ -99,6 +105,13 @@ def main():
             player.draw()
             turret.draw()
 
+            # Power ups implementation
+            power_up_manager.move(player)  # Move and draw power ups
+            if keys[k_f] and win_state:  # Activate on player press 'F'
+                power_up_manager.activate(bullet_manager, player)
+            power_up_manager.timePowerUp(bullet_manager, player)
+            
+
             stddraw.setPenColor(stddraw.WHITE)
             stddraw.setFontSize(25)
             stddraw.text(75, 580, f"Score: {score}")
@@ -116,6 +129,8 @@ def main():
                 move_cooldown = max(1, move_cooldown - 2)
                 enemy_manager = EnemyManager(8, 4, move_cooldown)
                 chance += 0.025
+                if power_up_manager.spawn_rate >= random.random():
+                    new_power_up = powerUp(random.randint(1,5), 3 + random.random() * 897, 610, 1)
                 win_state = True
 
             stddraw.clear(stddraw.BLACK)

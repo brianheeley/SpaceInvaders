@@ -31,9 +31,22 @@ class BulletManager:
 
         self.cooldown = 30
         self.current_cooldown = 0
+        self.spreadshot = False
 
     def create_bullet(self, x, y, angle):
         if self.current_cooldown == 0 and len(self.bullets) < self.max_bullets:
+
+            # Spread shot activated 
+            if self.spreadshot:
+                dx = math.cos(math.randians(angle) + 0.1) * self.speed
+                dy = math.sin(math.randians(angle) + 0.1) * self.speed
+                self.bullets.append(Bullet(x, y, dx, dy, self.size))
+
+                dx = math.cos(math.randians(angle) - 0.1) * self.speed
+                dy = math.sin(math.randians(angle) - 0.1) * self.speed
+                self.bullets.append(Bullet(x, y, dx, dy, self.size))
+                
+            # Normal bullet
             dx = math.cos(math.radians(angle)) * self.speed
             dy = math.sin(math.radians(angle)) * self.speed
             self.bullets.append(Bullet(x, y, dx, dy, self.size))
