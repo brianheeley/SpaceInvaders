@@ -13,7 +13,7 @@ class PowerUpManager:
         self.timer = 1000
         self.b_active = False
 
-    def move(self, player: Player):
+    def move(self, player: Player, bullet_manager: BulletManager):
         for power_up in self.power_ups:
             if not power_up.b_posess:
                 # Test if power up hit player
@@ -21,16 +21,20 @@ class PowerUpManager:
                     print("hit")
                     power_up.b_posess = True
                 else:
-                    powerUp._move()
-                    powerUp._draw()
+                    power_up._move()
+                    power_up._draw()
+            else:
+                self.timePowerUp(bullet_manager, player)
 
     def activate(self, bullet_manager: BulletManager, player: Player):
+        print('activate powerup')
         # activate the power up that player has
         for power_up in self.power_ups:
             if power_up.b_posess == True:
                 self.b_active = True
                 self.timer = 1000
                 power_up.b_active == True
+                print('activate pu')
 
                 if power_up.type == 1:
                     bullet_manager.cooldown = 0
@@ -55,6 +59,7 @@ class PowerUpManager:
                     bullet_manager.spreadShot = False
                 self.power_ups.remove(power_up)  # Delete power up from list
                 self.b_active = False
+                print('deactivate pu')
 
     def timePowerUp(self, bullet_manager: BulletManager, player: Player):
         if self.timer <= 0:
@@ -79,12 +84,21 @@ class PowerUp:
         self.b_posess: bool = False
 
     def _draw(self):
-        sd.setPenColor(color.BLUE)
+        if self.type == 1:
+            sd.setPenColor(color.YELLOW)
+        elif self.type == 2:
+            sd.setPenColor(color.BLUE)
+        elif self.type == 3:
+            sd.setPenColor(color.RED)
+        elif self.type == 4:
+            sd.setPenColor(color.GREEN)
+
         sd.setPenRadius(0.01)
-        sd.filledSquare(self.x, self.y, 3)
+        sd.filledCircle(self.x, self.y, 15)
+  
 
     def _move(self):
-        self.y -= self.speed / 20
+        self.y -= self.speed / 2
 
     def hit(self, player: Player) -> bool:
         return self.getDistance(player.x, player.y) <= player.height
