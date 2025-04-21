@@ -27,14 +27,14 @@ class PowerUpManager:
                 self.timePowerUp(bullet_manager, player)
 
     def activate(self, bullet_manager: BulletManager, player: Player):
-        print('activate powerup')
+        print("activate powerup")
         # activate the power up that player has
         for power_up in self.power_ups:
             if power_up.b_posess == True:
                 self.b_active = True
                 self.timer = 1000
-                power_up.b_active == True
-                print('activate pu')
+                power_up.b_active = True
+                print("activate pu")
 
                 if power_up.type == 1:
                     bullet_manager.cooldown = 0
@@ -56,10 +56,10 @@ class PowerUpManager:
                 if power_up.type == 1:
                     bullet_manager.cooldown = 30
                 elif power_up.type == 2:
-                    bullet_manager.spreadShot = False
+                    bullet_manager.spreadshot = False
                 self.power_ups.remove(power_up)  # Delete power up from list
                 self.b_active = False
-                print('deactivate pu')
+                print("deactivate pu")
 
     def timePowerUp(self, bullet_manager: BulletManager, player: Player):
         if self.timer <= 0:
@@ -95,13 +95,14 @@ class PowerUp:
 
         sd.setPenRadius(0.01)
         sd.filledCircle(self.x, self.y, 15)
-  
 
     def _move(self):
         self.y -= self.speed / 2
 
     def hit(self, player: Player) -> bool:
-        return self.getDistance(player.x, player.y) <= player.height
+        return self.getDistance(player.x, player.y) <= (
+            15 + min(player.width, player.height) / 2
+        )
 
     def getDistance(self, x, y) -> float:
         return math.sqrt((self.x - x) ** 2 + (self.y - y) ** 2)

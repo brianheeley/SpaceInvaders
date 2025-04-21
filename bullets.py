@@ -38,8 +38,8 @@ class BulletManager:
 
             # Spread shot activated
             if self.spreadshot:
-                dx = math.cos(math.randians(angle) + 0.1) * self.speed
-                dy = math.sin(math.randians(angle) + 0.1) * self.speed
+                dx = math.cos(math.radians(angle) + 0.1) * self.speed
+                dy = math.sin(math.radians(angle) + 0.1) * self.speed
                 self.bullets.append(Bullet(x, y, dx, dy, self.size))
 
                 dx = math.cos(math.randians(angle) - 0.1) * self.speed

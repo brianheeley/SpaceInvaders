@@ -74,7 +74,7 @@ def main():
                 bullet_manager = BulletManager(5, 4, 3)
                 enemy_bullet_manager = EnemyBulletManager(10, 4, 3)
                 enemy_manager = EnemyManager(8, 4, move_cooldown)
-                #power_up_manager = PowerUpManager(1)  # Temporary spawn rate of 1
+                # power_up_manager = PowerUpManager(1)  # Temporary spawn rate of 1
                 score = 0
 
         if game_state == "playing":
@@ -134,9 +134,11 @@ def main():
                 enemy_manager = EnemyManager(8, 4, move_cooldown)
                 chance += 0.025
                 if power_up_manager.spawn_rate >= random.random():
-                    new_power_up = PowerUp(random.randint(1, 5), 3 + random.random() * 897, 510, 1)
+                    new_power_up = PowerUp(
+                        random.randint(1, 5), 3 + random.random() * 897, 510, 1
+                    )
                     power_up_manager.power_ups.append(new_power_up)
-                    
+
                 win_state = True
 
             stddraw.clear(stddraw.BLACK)
