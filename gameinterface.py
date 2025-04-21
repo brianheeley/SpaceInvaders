@@ -8,9 +8,11 @@ from picture import Picture
 import helpmenu
 import threading
 
+
 # defining function that makes click sound on selection
 def playClick():
     stdaudio.playFile("clickSound")
+
 
 # defining function titleScreen that is displyed when the game is opened.
 def titleScreen():
@@ -46,7 +48,7 @@ def titleScreen():
             selectedKey = stddraw.nextKeyTyped()
 
             if selectedKey == "X" or selectedKey == "x":
-                threading.Thread(target = playClick).start()
+                threading.Thread(target=playClick).start()
                 stddraw.clear()
                 stddraw.clear(stddraw.BLACK)
                 stddraw.text(400, 300, "Exiting game...")
@@ -54,7 +56,7 @@ def titleScreen():
                 sys.exit()
 
             elif selectedKey == "H" or selectedKey == "h":
-                threading.Thread(target = playClick).start()
+                threading.Thread(target=playClick).start()
                 stddraw.clear()
                 stddraw.clear()
                 helpmenu.help()

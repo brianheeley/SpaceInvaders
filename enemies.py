@@ -11,6 +11,7 @@ class Enemy:
         self.height = height
         self.direction = 0
         self.pic = picture.Picture("assets/alien.png")
+        self.explosion = picture.Picture("assets/explosion.jpg")
 
     def move(self, dx, dy):
         self.x += dx
@@ -20,6 +21,11 @@ class Enemy:
         stddraw.setPenColor(stddraw.RED)
         stddraw.picture(
             self.pic, self.x, self.y - self.height / 2, self.width, self.height
+        )
+
+    def drawExplosion(self):
+        stddraw.picture(
+            self.explosion, self.x, self.y - self.height / 2, self.width, self.height
         )
 
 
