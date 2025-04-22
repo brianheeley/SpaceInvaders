@@ -35,6 +35,7 @@ def drawTitleScreen():
     stddraw.text(400, 250, helpScreen)
     stddraw.show(0)
 
+
 # defining function titleScreen that is displyed when the game is opened.
 def titleScreen():
 
@@ -53,7 +54,6 @@ def titleScreen():
 
             if selectedKey == "X" or selectedKey == "x":
                 threading.Thread(target=playClick).start()
-                stddraw.clear()
                 stddraw.clear(stddraw.BLACK)
                 stddraw.text(400, 300, "Exiting game...")
                 stddraw.show(1000)
@@ -64,11 +64,13 @@ def titleScreen():
                 stddraw.clear()
                 helpmenu.help()
 
+                # Make sure no keys are left in buffer
                 while stddraw.hasNextKeyTyped():
                     stddraw.nextKeyTyped()
 
-                stddraw.clear()
+                # Redraws title screen
                 drawTitleScreen()
 
             else:
-                break
+                # Returns the key that was pressed to function call
+                return selectedKey

@@ -1,6 +1,7 @@
 import stddraw
 import math
 from sounds import SoundManager
+from effects import EffectsManager
 
 
 class Bullet:
@@ -32,6 +33,7 @@ class BulletManager:
         self.cooldown = 30
         self.current_cooldown = 0
         self.spreadshot = False
+        self.effects_manager = EffectsManager()
 
     def create_bullet(self, x, y, angle):
         if self.current_cooldown == 0 and len(self.bullets) < self.max_bullets:
@@ -77,7 +79,7 @@ class BulletManager:
     def check_enemy_collisions(self, enemy_manager):
         score = 0
         bullets_to_remove = []
-        enemies_to_remove = []
+        enemies_to_hit = []
 
         for i in range(len(self.bullets)):
             bullet = self.bullets[i]
@@ -90,21 +92,23 @@ class BulletManager:
                     and bullet.y > enemy.y - enemy.height / 2
                     and bullet.y < enemy.y + enemy.height / 2
                 ):
-                    enemy.drawExplosion()
+                    self.effects_manager.add_explosion(
+                        enemy.x, enemy.y, enemy.width, enemy.height, 100
+                    )
                     bullets_to_remove.append(i)
-                    enemies_to_remove.append(j)
+                    enemies_to_hit.append(j)
                     score += 10
-                    stddraw.show(100)
                     break
 
         for i in sorted(bullets_to_remove, reverse=True):
             if i < len(self.bullets):
                 self.bullets.pop(i)
 
-        for i in sorted(enemies_to_remove, reverse=True):
+        for i in enemies_to_hit:
             if i < len(enemy_manager.enemies):
-                enemy_manager.enemies.pop(i)
-
+                enemy = enemy_manager.enemies[i]
+                enemy.is_exploding = True
+                enemy.explosion_timer = 20
                 SoundManager.play_sound("assets/explode")
 
         return score
