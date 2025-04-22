@@ -14,8 +14,7 @@ def playClick():
     stdaudio.playFile("clickSound")
 
 
-# defining function titleScreen that is displyed when the game is opened.
-def titleScreen():
+def drawTitleScreen():
 
     TSBackground = Picture("assets/TSBackground.jpg")
     stddraw.picture(TSBackground)
@@ -34,7 +33,12 @@ def titleScreen():
     stddraw.text(400, 350, startGame)
     stddraw.text(400, 300, exitGame)
     stddraw.text(400, 250, helpScreen)
+    stddraw.show(0)
 
+# defining function titleScreen that is displyed when the game is opened.
+def titleScreen():
+
+    drawTitleScreen()
     # keeps displaying title screen until a button is pressed by the user
     while True:
 
@@ -58,8 +62,13 @@ def titleScreen():
             elif selectedKey == "H" or selectedKey == "h":
                 threading.Thread(target=playClick).start()
                 stddraw.clear()
-                stddraw.clear()
                 helpmenu.help()
+
+                while stddraw.hasNextKeyTyped():
+                    stddraw.nextKeyTyped()
+
+                stddraw.clear()
+                drawTitleScreen()
 
             else:
                 break

@@ -52,9 +52,7 @@ def help():
             # return back to title page if [B] is pressed, otherwise continue displaying instructions
             if selectedKey == "B" or selectedKey == "b":
                 threading.Thread(target=playClick).start()
-                stddraw.clear()
-                stddraw.clear()
-                gameinterface.titleScreen()
+                return
 
 
             elif selectedKey == "X" or selectedKey == "x":
