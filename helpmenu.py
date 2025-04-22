@@ -54,7 +54,6 @@ def help():
                 threading.Thread(target=playClick).start()
                 return
 
-
             elif selectedKey == "X" or selectedKey == "x":
                 threading.Thread(target=playClick).start()
                 stddraw.clear()
@@ -66,4 +65,3 @@ def help():
 
             else:
                 break
-

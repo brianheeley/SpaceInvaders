@@ -8,6 +8,7 @@ from bullets import BulletManager, EnemyBulletManager
 from enemies import EnemyManager
 from power_ups import PowerUpManager, PowerUp
 from picture import Picture
+from effects import EffectsManager
 
 
 def game_over_screen(score):
@@ -46,6 +47,7 @@ def main():
     b_power_up: bool = False
 
     power_up_manager = PowerUpManager(1)  # Temporary spawn rate of 1
+    effects_manager = EffectsManager()
 
     if power_up_manager.spawn_rate >= random.random():
         new_power_up = PowerUp(random.randint(1, 5), 3 + random.random() * 897, 510, 1)
@@ -66,8 +68,14 @@ def main():
             game_running = False
 
         if game_state == "menu":
-            gameinterface.titleScreen()
-            if keys[stddraw.K_SPACE]:
+            key_pressed = gameinterface.titleScreen()
+            if (
+                key_pressed
+                and key_pressed != "h"
+                and key_pressed != "H"
+                and key_pressed != "x"
+                and key_pressed != "X"
+            ):
                 game_state = "playing"
 
                 # Initialising entities
@@ -92,11 +100,10 @@ def main():
                 bullet_manager.create_bullet(turret.end_x, turret.end_y, turret.angle)
 
             bullet_manager.update()
+            enemy_manager.update()
 
             enemy_manager.shoot(enemy_bullet_manager, chance)
             enemy_bullet_manager.update()
-
-            enemy_manager.update()
 
             score += bullet_manager.check_enemy_collisions(enemy_manager)
 
@@ -121,6 +128,8 @@ def main():
             stddraw.setPenColor(stddraw.WHITE)
             stddraw.setFontSize(25)
             stddraw.text(75, 580, f"Score: {score}")
+
+            effects_manager.update()
 
             stddraw.show(10)
 

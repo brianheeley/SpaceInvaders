@@ -12,21 +12,28 @@ class Enemy:
         self.direction = 0
         self.pic = picture.Picture("assets/alien.png")
         self.explosion = picture.Picture("assets/explosion.jpg")
+        self.is_exploding = False
+        self.explosion_timer = 0
 
     def move(self, dx, dy):
         self.x += dx
         self.y += dy
 
     def draw(self):
-        stddraw.setPenColor(stddraw.RED)
-        stddraw.picture(
-            self.pic, self.x, self.y - self.height / 2, self.width, self.height
-        )
-
-    def drawExplosion(self):
-        stddraw.picture(
-            self.explosion, self.x, self.y - self.height / 2, self.width, self.height
-        )
+        if self.is_exploding:
+            stddraw.picture(
+                self.explosion,
+                self.x,
+                self.y - self.height / 2,
+                self.width,
+                self.height,
+            )
+            self.explosion_timer -= 1
+        else:
+            stddraw.setPenColor(stddraw.RED)
+            stddraw.picture(
+                self.pic, self.x, self.y - self.height / 2, self.width, self.height
+            )
 
 
 class EnemyManager:
@@ -83,6 +90,17 @@ class EnemyManager:
 
         for enemy in self.enemies:
             enemy.draw()
+
+        enemies_to_remove = []
+        for i in range(len(self.enemies)):
+            enemy = self.enemies[i]
+            enemy.draw()
+            if enemy.is_exploding and enemy.explosion_timer <= 0:
+                enemies_to_remove.append(i)
+
+        for i in sorted(enemies_to_remove, reverse=True):
+            if i < len(self.enemies):
+                self.enemies.pop(i)
 
     def check_reached_bottom(self, player_top_y):
         for enemy in self.enemies:
