@@ -1,7 +1,6 @@
 import stddraw
 import gameinterface
 import random
-import sys
 from player import Player
 from turret import Turret
 from bullets import BulletManager, EnemyBulletManager
