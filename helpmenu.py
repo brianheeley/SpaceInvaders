@@ -31,14 +31,16 @@ def help():
     step5 = "Shoot [SpaceBar]"
     stddraw.setFontFamily("Times New Roman")
     stddraw.setFontSize(25)
-    stddraw.text(400, 350, step1)
-    stddraw.text(400, 300, step2)
-    stddraw.text(400, 250, step3)
-    stddraw.text(400, 200, step4)
-    stddraw.text(400, 150, step5)
+    stddraw.text(400, 400, step1)
+    stddraw.text(400, 350, step2)
+    stddraw.text(400, 300, step3)
+    stddraw.text(400, 250, step4)
+    stddraw.text(400, 200, step5)
 
     backButton = "Back to home screen [B]"
-    stddraw.text(400, 100, backButton)
+    stddraw.text(400, 120, backButton)
+    exitGame = "Quit game [X]"
+    stddraw.text(400, 90, exitGame)
 
     while True:
 
@@ -53,3 +55,17 @@ def help():
                 stddraw.clear()
                 stddraw.clear()
                 gameinterface.titleScreen()
+
+
+            elif selectedKey == "X" or selectedKey == "x":
+                threading.Thread(target=playClick).start()
+                stddraw.clear()
+                stddraw.clear(stddraw.BLACK)
+                stddraw.setPenColor(stddraw.BLUE)
+                stddraw.text(400, 300, "Exiting game...")
+                stddraw.show(1000)
+                sys.exit()
+
+            else:
+                break
+
