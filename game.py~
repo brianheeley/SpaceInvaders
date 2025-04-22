@@ -1,6 +1,7 @@
 import stddraw
 import gameinterface
 import random
+import sys
 from player import Player
 from turret import Turret
 from bullets import BulletManager, EnemyBulletManager
@@ -73,7 +74,7 @@ def main():
                 player = Player(400, 100, 49, 62, 2)
                 turret = Turret(player, 90, 1)
                 bullet_manager = BulletManager(5, 4, 3)
-                enemy_bullet_manager = EnemyBulletManager(10, 4, 3)
+                enemy_bullet_manager = EnemyBulletManager(10, 8, 3)
                 enemy_manager = EnemyManager(8, 4, move_cooldown)
                 # power_up_manager = PowerUpManager(1)  # Temporary spawn rate of 1
                 score = 0
