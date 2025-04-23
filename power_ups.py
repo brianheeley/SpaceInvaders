@@ -21,13 +21,12 @@ class PowerUpManager:
             if not power_up.b_posess:
                 # Test if power up is hit by player
                 if power_up.hit(player, bullet_manager):
-                    print('hit')
+                    print("hit")
                     # Remove other pu's if there are more than 1 in posession
                     for other_power_up in self.power_ups[:]:
                         if other_power_up.b_posess == True:
                             self.power_ups.remove(other_power_up)
                     power_up.b_posess = True
-
 
                 elif power_up.outOfBounds():
                     self.power_ups.remove(power_up)
@@ -37,14 +36,17 @@ class PowerUpManager:
             else:
                 # Draw power up icon that is in posession in the corner
                 sd.setPenColor(power_up.colour)
-                sd.filledSquare(20, 20, power_up.size /2)
-            
+                sd.filledSquare(20, 20, power_up.size / 2)
 
-    def activate(self, bullet_manager: BulletManager, player: Player, enemy_manager: EnemyManager):
+    def activate(
+        self, bullet_manager: BulletManager, player: Player, enemy_manager: EnemyManager
+    ):
         # activate the power up that player has
         for power_up in self.power_ups:
             if power_up.b_posess == True:
-                self.deactivate(bullet_manager, player) # Deactivate any current power up
+                self.deactivate(
+                    bullet_manager, player
+                )  # Deactivate any current power up
                 self.b_active = True
                 power_up.b_posess = False
                 print("activate pu")
@@ -71,14 +73,12 @@ class PowerUpManager:
                 self.screenFlash(power_up)
                 self.power_ups.remove(power_up)
 
-
     def deactivate(self, bullet_manager: BulletManager, player: Player):
         print("deactivate pu")
         self.b_active = False
         bullet_manager.cooldown = 30
         bullet_manager.spreadshot = False
         self.timer = 5000
-
 
     def timePowerUp(self, bullet_manager: BulletManager, player: Player):
 
@@ -90,9 +90,9 @@ class PowerUpManager:
     def screenFlash(self, power_up):
         sd.setPenColor(power_up.colour)
         sd.setPenRadius(0.02)
-        sd.rectangle(0,0, 800, 600)
+        sd.rectangle(0, 0, 800, 600)
         sd.show(200)
-        
+
 
 ###############################################################
 
@@ -111,38 +111,37 @@ class PowerUp:
         self.b_posess: bool = False
         self.colour = color.GRAY
         match self.type:
-            case 1: self.colour = color.YELLOW
-            case 2: self.colour = color.BLUE
-            case 3: self.colour = color.RED
-            case 4: self.colour = color.GREEN
-        
-
+            case 1:
+                self.colour = color.YELLOW
+            case 2:
+                self.colour = color.BLUE
+            case 3:
+                self.colour = color.RED
+            case 4:
+                self.colour = color.GREEN
 
     def _draw(self):
         sd.setPenColor(self.colour)
         sd.setPenRadius(0.01)
         sd.filledSquare(self.x, self.y, self.size)
 
-
     def _move(self):
         self.y -= self.speed / 2
-        
-
 
     def hit(self, player: Player, bullet_manager: BulletManager) -> bool:
         for bullet in bullet_manager.bullets:
-            if (self.getDistance(player.x, player.y) <= self.size + player.height) or (self.getDistance(bullet.x, bullet.y) <= self.size +4):
+            if (self.getDistance(player.x, player.y) <= self.size + player.height) or (
+                self.getDistance(bullet.x, bullet.y) <= self.size + 4
+            ):
                 bullet_manager.bullets.remove(bullet)
                 return True
-
 
     def getDistance(self, x, y) -> float:
         return math.sqrt((self.x - x) ** 2 + (self.y - y) ** 2)
 
-    
     def outOfBounds(self) -> bool:
-        if self.x < 0 or self.x > 800: return True
-        if self.y < 0 or self.y > 1000: return True
+        if self.x < 0 or self.x > 800:
+            return True
+        if self.y < 0 or self.y > 1000:
+            return True
         return False
-
-

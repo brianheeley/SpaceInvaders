@@ -119,8 +119,6 @@ class EnemyManager:
                 )
 
     def destroyAll(self):
-        #for enemy in self.enemies[:]:
-            # explode enemy
+        # for enemy in self.enemies[:]:
+        # explode enemy
         self.enemies.clear()
-
-        
