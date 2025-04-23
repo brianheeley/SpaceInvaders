@@ -2,6 +2,7 @@ import picture
 import stddraw
 import random
 
+
 class ExplosionEffect:
     def __init__(self, x, y, width, height, duration=100):
         self.x = x
@@ -25,11 +26,12 @@ class ExplosionEffect:
             self.height,
         )
 
+
 class Star:
     def __init__(self, x, y, radius, speed):
         self.x = x
         self.y = y
-        self. radius = radius
+        self.radius = radius
         self.speed = speed
 
     def update(self):
@@ -78,4 +80,3 @@ class EffectsManager:
             star_x = random.randint(0, 800)
             star_y = random.randint(0, 600)
             self.stars.append(Star(star_x, star_y, 1, 0.5))
-

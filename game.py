@@ -12,6 +12,7 @@ from picture import Picture
 from effects import EffectsManager
 from bunker import Bunker, BunkerManager
 
+
 def game_over_screen(score):
     stddraw.clear(stddraw.BLACK)
 
@@ -75,14 +76,13 @@ def main():
             ):
                 game_state = "playing"
 
-
                 # Initialising entities
                 player = Player(400, 100, 49, 62, 2)
                 turret = Turret(player, 90, 1)
                 bullet_manager = BulletManager(4, 3)
                 enemy_bullet_manager = EnemyBulletManager(10, 10, 3)
                 enemy_manager = EnemyManager(8, 4, move_cooldown)
-                bunker = Bunker(250,250,200,90)
+                bunker = Bunker(250, 250, 200, 90)
                 power_up_manager = PowerUpManager(1)  # Temporary spawn rate of 1
                 score = 0
 
@@ -103,7 +103,7 @@ def main():
 
             bullet_manager.update()
             enemy_manager.update()
-            bunker_manager.update(enemy_bullet_manager)
+            bunker_manager.update(enemy_bullet_manager, bullet_manager)
 
             enemy_manager.shoot(enemy_bullet_manager, chance)
             enemy_bullet_manager.update()
@@ -153,7 +153,7 @@ def main():
             stddraw.text(75, 580, f"Score: {score}")
             stddraw.text(725, 580, f"Lives: {player.lives}")
 
-            #effects_manager.update()
+            # effects_manager.update()
 
             stddraw.show(10)
             player.game_timer += 10
@@ -191,6 +191,7 @@ def main():
             if keys[stddraw.K_SPACE]:
                 game_state = "playing"
                 win_state = False
+                bunker = Bunker(250, 250, 200, 90)
 
             stddraw.show(10)
 

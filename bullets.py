@@ -2,7 +2,7 @@ import stddraw
 import math
 from sounds import SoundManager
 from effects import EffectsManager
-from bunker import BunkerManager 
+from bunker import BunkerManager
 
 
 class Bullet:
@@ -56,7 +56,22 @@ class BulletManager:
 
             self.current_cooldown = self.cooldown
 
-            #SoundManager.play_sound("assets/playerShoot")
+            # SoundManager.play_sound("assets/playerShoot")
+
+    def removeBullet(self, bunker):
+        bullets_to_remove = []
+
+        for i in range(len(self.bullets)):
+            bullet = self.bullets[i]
+            if (bullet.x > bunker.x - bunker.width / 2 \
+                and bullet.x < bunker.x + bunker.width / 2 \
+                and bullet.y > bunker.y - bunker.height / 2 \
+                and bullet.y < bunker.y + bunker.height / 2):
+                bullets_to_remove.append(i)
+
+        for i in sorted(bullets_to_remove, reverse=True):
+            if i < len(self.bullets):
+                self.bullets.pop(i)
 
     def update(self):
         stddraw.setPenColor(stddraw.WHITE)
@@ -114,6 +129,17 @@ class BulletManager:
 
         return score
 
+    def check_bunker_collisions(self, bunker):
+        for bullet in self.bullets:
+            if (
+                bullet.x > bunker.x - bunker.width / 2
+                and bullet.x < bunker.x + bunker.width / 2
+                and bullet.y > bunker.y - bunker.height / 2
+                and bullet.y < bunker.y + bunker.height / 2
+            ):
+                return True
+        return False
+
 
 class EnemyBulletManager:
     def __init__(self, max_bullets, size, speed):
@@ -145,7 +171,6 @@ class EnemyBulletManager:
             if i < len(self.bullets):
                 self.bullets.pop(i)
 
-
     def check_bunker_collisions(self, bunker):
         for bullet in self.bullets:
 
@@ -157,7 +182,7 @@ class EnemyBulletManager:
             ):
                 return True
         return False
-    
+
     def removeBullet(self, bunker):
 
         stddraw.setPenColor(stddraw.YELLOW)
@@ -168,7 +193,6 @@ class EnemyBulletManager:
             bullet.update()
             bullet.draw()
 
-
             if (
                 bullet.x > bunker.x - bunker.width / 2
                 and bullet.x < bunker.x + bunker.width / 2
@@ -177,11 +201,9 @@ class EnemyBulletManager:
             ):
                 bullets_to_remove.append(i)
 
-
         for i in sorted(bullets_to_remove, reverse=True):
             if i < len(self.bullets):
                 self.bullets.pop(i)
-
 
     def check_player_collision(self, player):
         for bullet in self.bullets:
