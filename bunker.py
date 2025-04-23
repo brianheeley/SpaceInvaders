@@ -43,14 +43,22 @@ class BunkerManager:
             bunker = self.bunkers[i]
             bunker.draw()
 
-            if enemy_bullet_manager.check_bunker_collisions(bunker):
+            enemy_hit = enemy_bullet_manager.check_bunker_collisions(bunker)
+            if enemy_hit:
                 enemy_bullet_manager.removeBullet(bunker)
-                bunkers_to_remove.append(i)
 
-            if player_bullet_manager.check_bunker_collisions(bunker):
+                # ADD FUNCTIONALITY TO REMOVE HEALTH HERE
+
+                bunkers_to_remove.append(i)
+            player_hit = player_bullet_manager.check_bunker_collisions(bunker)
+            if player_hit:
                 player_bullet_manager.removeBullet(bunker)
+
+                # ADD FUNCTIONALITY TO REMOVE HEALTH HERE
+
                 bunkers_to_remove.append(i)
 
+        # Remove bunkers that were hit
         for i in sorted(bunkers_to_remove, reverse=True):
             if i < len(self.bunkers):
                 self.bunkers.pop(i)

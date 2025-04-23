@@ -99,6 +99,7 @@ class BulletManager:
         bullets_to_remove = []
         enemies_to_hit = []
 
+        # Gather all collisions
         for i in range(len(self.bullets)):
             bullet = self.bullets[i]
             for j in range(len(enemy_manager.enemies)):
@@ -116,14 +117,16 @@ class BulletManager:
                     bullets_to_remove.append(i)
                     enemies_to_hit.append(j)
                     score += 10
-                    break
+                    break  # Exit inner loop once collision is found
 
+        # Remove bullets from heighest index first
         for i in sorted(bullets_to_remove, reverse=True):
-            if i < len(self.bullets):
+            if i < len(self.bullets):  # Safety check
                 self.bullets.pop(i)
 
-        for i in enemies_to_hit:
-            if i < len(enemy_manager.enemies):
+        # Process enemy hits
+        for i in sorted(enemies_to_hit, reverse=True):  # Process in rev order
+            if i < len(enemy_manager.enemies):  # Safety check
                 enemy = enemy_manager.enemies[i]
                 enemy.is_exploding = True
                 enemy.explosion_timer = 20

@@ -11,7 +11,7 @@ class ExplosionEffect:
         self.height = height
         self.duration = duration
         self.current_frame = 0
-        self.explosion_pic = picture.Picture("assets/explosion.jpg")
+        self.explosion_pic = None
 
     def update(self):
         self.current_frame += 1
@@ -45,12 +45,20 @@ class EffectsManager:
     def __init__(self):
         self.effects = []
         self.stars = []
+        self.max_stars = 100
+
+        # Load explosion image once
+        self.explosion_pic = picture.Picture("assets/explosion.jpg")
 
     def add_explosion(self, x, y, width, height, duration=100):
-        self.effects.append(ExplosionEffect(x, y, width, height, duration))
+        explosion = ExplosionEffect(x, y, width, height, duration)
+        # Use shared explosion picture
+        explosion.explosion_pic = self.explosion_pic
+        self.effects.append(explosion)
 
     def update(self):
 
+        # Process effects
         effects_to_remove = []
         for i in range(len(self.effects)):
             effect = self.effects[i]
@@ -62,6 +70,7 @@ class EffectsManager:
         for i in sorted(effects_to_remove, reverse=True):
             self.effects.pop(i)
 
+        # Process stars
         stars_to_remove = []
         for i in range(len(self.stars)):
             star = self.stars[i]
@@ -75,7 +84,7 @@ class EffectsManager:
             self.stars.pop(i)
 
     def add_star(self):
-        if len(self.stars) < 100:
+        if len(self.stars) < self.max_stars:
 
             star_x = random.randint(0, 800)
             star_y = random.randint(0, 600)
