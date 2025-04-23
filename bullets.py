@@ -63,10 +63,12 @@ class BulletManager:
 
         for i in range(len(self.bullets)):
             bullet = self.bullets[i]
-            if (bullet.x > bunker.x - bunker.width / 2 \
-                and bullet.x < bunker.x + bunker.width / 2 \
-                and bullet.y > bunker.y - bunker.height / 2 \
-                and bullet.y < bunker.y + bunker.height / 2):
+            if (
+                bullet.x > bunker.x - bunker.width / 2
+                and bullet.x < bunker.x + bunker.width / 2
+                and bullet.y > bunker.y - bunker.height / 2
+                and bullet.y < bunker.y + bunker.height / 2
+            ):
                 bullets_to_remove.append(i)
 
         for i in sorted(bullets_to_remove, reverse=True):
