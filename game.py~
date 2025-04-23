@@ -2,12 +2,15 @@ import stddraw
 import gameinterface
 import random
 import sys
+import math
 from player import Player
 from turret import Turret
 from bullets import BulletManager, EnemyBulletManager
 from enemies import EnemyManager
 from power_ups import PowerUpManager, PowerUp
 from picture import Picture
+from effects import EffectsManager
+from bunker import Bunker, BunkerManager
 
 
 def game_over_screen(score):
@@ -45,11 +48,8 @@ def main():
     win_state = False
     b_power_up: bool = False
 
-    power_up_manager = PowerUpManager(1)  # Temporary spawn rate of 1
-
-    if power_up_manager.spawn_rate >= random.random():
-        new_power_up = PowerUp(random.randint(1, 5), 3 + random.random() * 897, 510, 1)
-        power_up_manager.power_ups.append(new_power_up)
+    effects_manager = EffectsManager()
+    bunker_manager = BunkerManager()
 
     while game_running:
         stddraw.clear(stddraw.BLACK)
@@ -66,17 +66,28 @@ def main():
             game_running = False
 
         if game_state == "menu":
-            gameinterface.titleScreen()
-            if keys[stddraw.K_SPACE]:
+            key_pressed = gameinterface.titleScreen()
+            if (
+                key_pressed
+                and key_pressed != "h"
+                and key_pressed != "H"
+                and key_pressed != "x"
+                and key_pressed != "X"
+            ):
                 game_state = "playing"
 
                 # Initialising entities
                 player = Player(400, 100, 49, 62, 2)
                 turret = Turret(player, 90, 1)
-                bullet_manager = BulletManager(5, 4, 3)
-                enemy_bullet_manager = EnemyBulletManager(10, 8, 3)
+                bullet_manager = BulletManager(4, 3)
+                enemy_bullet_manager = EnemyBulletManager(10, 10, 3)
                 enemy_manager = EnemyManager(8, 4, move_cooldown)
+<<<<<<< HEAD
+                bunker = Bunker(250,250,200,90)
                 # power_up_manager = PowerUpManager(1)  # Temporary spawn rate of 1
+=======
+                power_up_manager = PowerUpManager(1)  # Temporary spawn rate of 1
+>>>>>>> f55bc691124ce5e10dec7630799597280c5845d8
                 score = 0
 
         if game_state == "playing":
@@ -92,11 +103,11 @@ def main():
                 bullet_manager.create_bullet(turret.end_x, turret.end_y, turret.angle)
 
             bullet_manager.update()
+            enemy_manager.update()
+            bunker_manager.update(enemy_bullet_manager)
 
             enemy_manager.shoot(enemy_bullet_manager, chance)
             enemy_bullet_manager.update()
-
-            enemy_manager.update()
 
             score += bullet_manager.check_enemy_collisions(enemy_manager)
 
@@ -111,18 +122,29 @@ def main():
 
             player.draw()
             turret.draw()
+            bunker_manager.draw()
 
             # Power ups implementation
+            if player.game_timer % 10000 == 0: #and  player.game_timer != 0:
+                if power_up_manager.spawn_rate >= random.random():
+                    new_power_up = PowerUp(
+                        random.randint(1, 4), 33 + random.random() * 767, 610, 1
+                    )
+                    power_up_manager.power_ups.append(new_power_up)
+
             power_up_manager.move(player, bullet_manager)  # Move and draw power ups
-            if keys[stddraw.K_f] and win_state:  # Activate on player press 'F'
-                power_up_manager.activate(bullet_manager, player)
+            if keys[stddraw.K_f]:  # Activate on player press 'F'
+                power_up_manager.activate(bullet_manager, player, enemy_manager)
             power_up_manager.timePowerUp(bullet_manager, player)
 
             stddraw.setPenColor(stddraw.WHITE)
             stddraw.setFontSize(25)
             stddraw.text(75, 580, f"Score: {score}")
 
+            effects_manager.update()
+
             stddraw.show(10)
+            player.game_timer += 10
 
         elif game_state == "game_over":
             game_over_screen(score)
@@ -135,11 +157,13 @@ def main():
                 move_cooldown = max(1, move_cooldown - 2)
                 enemy_manager = EnemyManager(8, 4, move_cooldown)
                 chance += 0.025
-                if power_up_manager.spawn_rate >= random.random():
-                    new_power_up = PowerUp(
-                        random.randint(1, 5), 3 + random.random() * 897, 510, 1
-                    )
-                    power_up_manager.power_ups.append(new_power_up)
+
+                power_up_manager.spawn_rate += min(math.exp(player.game_timer/100000)/20, 20)
+                print(power_up_manager.spawn_rate)
+                bullet_manager.bullets.clear()
+                enemy_bullet_manager.bullets.clear()
+                power_up_manager.power_ups.clear()
+                power_up_manager.deactivate(bullet_manager, player)
 
                 win_state = True
 
