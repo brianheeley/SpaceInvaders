@@ -12,6 +12,7 @@ class Player:
 
         self.pic = picture.Picture("assets/ship.jpg")
         self.lives = 3
+        self.game_timer = 0  # Time in ms
 
     def move(self, keys):
         if keys[stddraw.K_a] and self.x > self.width / 2:
