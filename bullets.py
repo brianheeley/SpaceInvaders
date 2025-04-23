@@ -2,7 +2,7 @@ import stddraw
 import math
 from sounds import SoundManager
 from effects import EffectsManager
-
+from bunker import BunkerManager
 
 class Bullet:
     def __init__(self, x, y, dx, dy, size):
@@ -76,6 +76,7 @@ class BulletManager:
         for i in sorted(bullets_to_remove, reverse=True):
             self.bullets.pop(i)
 
+
     def check_enemy_collisions(self, enemy_manager):
         score = 0
         bullets_to_remove = []
@@ -114,6 +115,7 @@ class BulletManager:
         return score
 
 
+
 class EnemyBulletManager:
     def __init__(self, max_bullets, size, speed):
         self.max_bullets = max_bullets
@@ -140,9 +142,48 @@ class EnemyBulletManager:
             if bullet.out_of_bounds():
                 bullets_to_remove.append(i)
 
+
         for i in sorted(bullets_to_remove, reverse=True):
             if i < len(self.bullets):
                 self.bullets.pop(i)
+
+    def check_bunker_collisions(self, bunker):
+        for bullet in self.bullets:
+
+            if (
+                bullet.x > bunker.x - bunker.width / 2
+                and bullet.x < bunker.x + bunker.width / 2
+                and bullet.y > bunker.y - bunker.height / 2
+                and bullet.y < bunker.y + bunker.height / 2
+            ):
+                return True
+        return False
+
+    def removeBullet(self, bunker):
+
+        stddraw.setPenColor(stddraw.YELLOW)
+        bullets_to_remove = []
+
+        for i in range(len(self.bullets)):
+            bullet = self.bullets[i]
+            bullet.update()
+            bullet.draw()
+
+
+            if (
+                bullet.x > bunker.x - bunker.width / 2
+                and bullet.x < bunker.x + bunker.width / 2
+                and bullet.y > bunker.y - bunker.height / 2
+                and bullet.y < bunker.y + bunker.height / 2
+            ):
+                bullets_to_remove.append(i)
+
+
+        for i in sorted(bullets_to_remove, reverse=True):
+            if i < len(self.bullets):
+                self.bullets.pop(i)
+
+     
 
     def check_player_collision(self, player):
         for bullet in self.bullets:
