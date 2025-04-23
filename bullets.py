@@ -24,12 +24,12 @@ class Bullet:
 
 
 class BulletManager:
-    def __init__(self, max_bullets, size, speed):
-        self.max_bullets = max_bullets
+    def __init__(self, size, speed):
         self.size = size
         self.speed = speed
         self.bullets = []
 
+        self.max_bullets = 100
         self.cooldown = 30
         self.current_cooldown = 0
         self.spreadshot = False

@@ -117,3 +117,10 @@ class EnemyManager:
                 enemy_bullet_manager.create_bullet(
                     shooter.x, shooter.y - shooter.height / 2
                 )
+
+    def destroyAll(self):
+        #for enemy in self.enemies[:]:
+            # explode enemy
+        self.enemies.clear()
+
+        
