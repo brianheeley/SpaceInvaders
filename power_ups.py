@@ -145,3 +145,4 @@ class PowerUp:
         if self.y < 0 or self.y > 1000: return True
         return False
 
+
