@@ -63,7 +63,7 @@ class PowerUpManager:
                     SoundManager.play_sound("assets/explode")
                     enemy_manager.destroyAll()
                     self.b_active = False
-                    sd.show(700)
+                    sd.show(1300)
                 elif power_up.type == 4:
                     player.lives += 1
                     print("extra life")
@@ -129,12 +129,21 @@ class PowerUp:
         self.y -= self.speed / 2
 
     def hit(self, player: Player, bullet_manager: BulletManager) -> bool:
-        for bullet in bullet_manager.bullets:
-            if (self.getDistance(player.x, player.y) <= self.size + player.height) or (
-                self.getDistance(bullet.x, bullet.y) <= self.size + 4
-            ):
-                bullet_manager.bullets.remove(bullet)
-                return True
+
+        # Check for player collision
+        if self.getDistance(player.x, player.y) <= self.size + player.height / 2:
+            return True
+
+        # Check for bullet collisions
+        for bullet in bullet_manager.bullets[:]:  # Create safe copy
+            if self.getDistance(player.x, player.y) <= self.size + bullet.size:
+                try:
+                    bullet_manager.bullets.remove(bullet)
+                    return True
+                except ValueError:
+                    # If bullet was already removed
+                    pass
+        return False
 
     def getDistance(self, x, y) -> float:
         return math.sqrt((self.x - x) ** 2 + (self.y - y) ** 2)
