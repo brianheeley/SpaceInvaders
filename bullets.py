@@ -56,7 +56,7 @@ class BulletManager:
 
             self.current_cooldown = self.cooldown
 
-            SoundManager.play_sound("assets/playerShoot")
+            #SoundManager.play_sound("assets/playerShoot")
 
     def update(self):
         stddraw.setPenColor(stddraw.WHITE)
