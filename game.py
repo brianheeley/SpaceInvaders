@@ -10,7 +10,6 @@ from enemies import EnemyManager
 from power_ups import PowerUpManager, PowerUp
 from picture import Picture
 from effects import EffectsManager
-from bunker import Bunker, BunkerManager
 
 
 def game_over_screen(score):
@@ -49,7 +48,6 @@ def main():
     b_power_up: bool = False
 
     effects_manager = EffectsManager()
-    bunker_manager = BunkerManager()
 
     while game_running:
         stddraw.clear(stddraw.BLACK)
@@ -82,12 +80,7 @@ def main():
                 bullet_manager = BulletManager(4, 3)
                 enemy_bullet_manager = EnemyBulletManager(10, 10, 3)
                 enemy_manager = EnemyManager(8, 4, move_cooldown)
-<<<<<<< HEAD
-                bunker = Bunker(250,250,200,90)
-                # power_up_manager = PowerUpManager(1)  # Temporary spawn rate of 1
-=======
                 power_up_manager = PowerUpManager(1)  # Temporary spawn rate of 1
->>>>>>> f55bc691124ce5e10dec7630799597280c5845d8
                 score = 0
 
         if game_state == "playing":
@@ -104,7 +97,6 @@ def main():
 
             bullet_manager.update()
             enemy_manager.update()
-            bunker_manager.update(enemy_bullet_manager)
 
             enemy_manager.shoot(enemy_bullet_manager, chance)
             enemy_bullet_manager.update()
@@ -122,7 +114,6 @@ def main():
 
             player.draw()
             turret.draw()
-            bunker_manager.draw()
 
             # Power ups implementation
             if player.game_timer % 10000 == 0: #and  player.game_timer != 0:
