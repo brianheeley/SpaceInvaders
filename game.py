@@ -89,6 +89,9 @@ def main():
             # Currently disabled due to non transparent sprites
             # stddraw.picture(background)
 
+            effects_manager.add_star()
+            effects_manager.update()
+
             player.move(keys)
             turret.update(keys)
 
@@ -106,8 +109,20 @@ def main():
             if enemy_manager.check_reached_bottom(player.y + player.height / 2):
                 game_state = "game_over"
 
-            if enemy_bullet_manager.check_player_collision(player):
+            if (
+                enemy_bullet_manager.check_player_collision(player)
+                and player.lives == 0
+            ):
                 game_state = "game_over"
+
+            if (
+                enemy_bullet_manager.check_player_collision(player)
+                and player.lives != 1
+            ):
+                bullet_manager.bullets.clear()
+                enemy_bullet_manager.bullets.clear()
+                player.lives -= 1
+                player.x = 400
 
             if len(enemy_manager.enemies) == 0:
                 game_state = "win"
@@ -116,7 +131,7 @@ def main():
             turret.draw()
 
             # Power ups implementation
-            if player.game_timer % 10000 == 0: #and  player.game_timer != 0:
+            if player.game_timer % 10000 == 0:  # and  player.game_timer != 0:
                 if power_up_manager.spawn_rate >= random.random():
                     new_power_up = PowerUp(
                         random.randint(1, 4), 33 + random.random() * 767, 610, 1
@@ -131,8 +146,9 @@ def main():
             stddraw.setPenColor(stddraw.WHITE)
             stddraw.setFontSize(25)
             stddraw.text(75, 580, f"Score: {score}")
+            stddraw.text(725, 580, f"Lives: {player.lives}")
 
-            effects_manager.update()
+            #effects_manager.update()
 
             stddraw.show(10)
             player.game_timer += 10
@@ -149,7 +165,9 @@ def main():
                 enemy_manager = EnemyManager(8, 4, move_cooldown)
                 chance += 0.025
 
-                power_up_manager.spawn_rate += min(math.exp(player.game_timer/100000)/20, 20)
+                power_up_manager.spawn_rate += min(
+                    math.exp(player.game_timer / 100000) / 20, 20
+                )
                 print(power_up_manager.spawn_rate)
                 bullet_manager.bullets.clear()
                 enemy_bullet_manager.bullets.clear()
