@@ -33,3 +33,23 @@ Slashgear.com. (2025). Available at: https://www.slashgear.com/wp-content/upload
 
 - Explosion picture:
 Istockphoto.com. (2025). Available at: https://media.istockphoto.com/vectors/vector-pixel-art-isolated-bomb-blast-vector-id1208336101?k=6&m=1208336101&s=612x612&w=0&h=CjDzyWkCCTUCAiwfPskHMXk5i1OTLsvhaxm2m3HG4lc= [Accessed 11 Apr. 2025].
+
+- Extra life powerup icon:
+Pixilart.com. (2025). Available at: https://www.pixilart.com/art/health-power-up-5a3967a0ba03e09 [Accessed 24 Apr. 2025]
+
+- Nuke powerup icon:
+Istockphoto.com. (2025). Available at: https://www.istockphoto.com/vector/pixel-game-icons-vector-isolated-bombs-with-fire-graphics-of-retro-gaming-flat-gm1362233243-434262513 [Accessed 24 Apr. 2025]
+
+- Bullet speed powerup icon:
+Vhv.rs. (2025). Available at: https://www.vhv.rs/viewpic/hbRJRRi_16-bit-lightning-bolt-png-download-lightning-bolt/ [Accessed 24 Apr. 2025]
+
+- Multi-shoot powerup icon:
+Pngegg.com. (2025). Available at: https://www.pngegg.com/en/png-stupy [Accessed 24 Apr. 2025]
+
+- Powerup sound:
+Freesound.com. (2025). Available at: https://freesound.org/people/Joao_Janz/sounds/478342/ [Accessed 24 Apr. 2025]
+
+- Level up sound:
+Freesound.com. (2025). Available at: https://freesound.org/people/Tuudurt/sounds/258142/ [Accessed 24 Apr. 2025]
+
+
