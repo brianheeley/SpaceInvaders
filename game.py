@@ -40,8 +40,6 @@ def main():
     stddraw.setXscale(0, 800)
     stddraw.setYscale(0, 600)
 
-    # Load menu background
-    background = Picture("assets/gameBackground.jpg")
 
     # Initialize variables for game start
     game_state = "menu"
@@ -52,7 +50,6 @@ def main():
     move_cooldown = 30
     chance = 0.2
     win_state = False
-    b_power_up: bool = False
 
     # Load the effects and bunker manager classes
     effects_manager = EffectsManager()
@@ -131,14 +128,14 @@ def main():
 
             if (
                 enemy_bullet_manager.check_player_collision(player)
-                and player.lives == 0
+                and player.lives <= 1
             ):
                 game_state = "game_over"
 
             # After a player gets hit while still having lives
             if (
                 enemy_bullet_manager.check_player_collision(player)
-                and player.lives != 1
+                and player.lives > 1
             ):
                 bullet_manager.bullets.clear()
                 enemy_bullet_manager.bullets.clear()
@@ -191,6 +188,8 @@ def main():
                 move_cooldown = max(1, move_cooldown - 2)
                 enemy_manager = EnemyManager(8, 4, move_cooldown)
                 chance += 0.025
+
+                bunker_manager.regenerate()
 
                 power_up_manager.spawn_rate += min(
                     math.exp(player.game_timer / 100000) / 20, 20
