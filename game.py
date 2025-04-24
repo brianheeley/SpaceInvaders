@@ -40,7 +40,6 @@ def main():
     stddraw.setXscale(0, 800)
     stddraw.setYscale(0, 600)
 
-
     # Initialize variables for game start
     game_state = "menu"
     score = 0
@@ -133,10 +132,7 @@ def main():
                 game_state = "game_over"
 
             # After a player gets hit while still having lives
-            if (
-                enemy_bullet_manager.check_player_collision(player)
-                and player.lives > 1
-            ):
+            if enemy_bullet_manager.check_player_collision(player) and player.lives > 1:
                 bullet_manager.bullets.clear()
                 enemy_bullet_manager.bullets.clear()
                 player.lives -= 1
@@ -194,7 +190,6 @@ def main():
                 power_up_manager.spawn_rate += min(
                     math.exp(player.game_timer / 100000) / 20, 20
                 )
-                print(power_up_manager.spawn_rate)
                 bullet_manager.bullets.clear()
                 enemy_bullet_manager.bullets.clear()
                 power_up_manager.power_ups.clear()

@@ -3,7 +3,7 @@ import picture
 
 
 class Bunker:
-    #initialise bunker class
+    # initialise bunker class
     def __init__(self, x, y, width, height):
         self.x = x
         self.y = y
@@ -12,7 +12,7 @@ class Bunker:
         self.picture = picture.Picture("assets/bunkers.png")
         self.health = 3
 
-    #define function to display bunker image
+    # define function to display bunker image
     def draw(self):
         stddraw.picture(
             self.picture, self.x, self.y - self.height / 2, self.width, self.height
@@ -20,21 +20,21 @@ class Bunker:
 
 
 class BunkerManager:
-    #initialise bunker manager class
+    # initialise bunker manager class
     def __init__(self):
         self.bunkers = []
         self.populate()
 
-    #define function which calls function to display bunkers on screen
+    # define function which calls function to display bunkers on screen
     def draw(self):
         for bunker in self.bunkers:
             bunker.draw()
 
-    #define function which adds each bunker created to bunker array
+    # define function which adds each bunker created to bunker array
     def create_bunkers(self, x, y, width, height):
         self.bunkers.append(Bunker(x, y, width, height))
 
-    #define function that populates array
+    # define function that populates array
     def populate(self):
         x_spacing = 250
         y = 250
@@ -76,5 +76,3 @@ class BunkerManager:
 
         self.bunkers.clear()
         self.populate()
-
-

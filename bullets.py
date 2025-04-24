@@ -173,8 +173,8 @@ class EnemyBulletManager:
         for i in sorted(bullets_to_remove, reverse=True):
             if i < len(self.bullets):
                 self.bullets.pop(i)
-    
-    #define function to check if bullet has collided with bunker
+
+    # define function to check if bullet has collided with bunker
     def check_bunker_collisions(self, bunker):
         for bullet in self.bullets:
 
@@ -186,8 +186,8 @@ class EnemyBulletManager:
             ):
                 return True
         return False
-    
-    #define function to remove bullets if they hit bunker
+
+    # define function to remove bullets if they hit bunker
     def removeBullet(self, bunker):
 
         stddraw.setPenColor(stddraw.YELLOW)
@@ -209,8 +209,8 @@ class EnemyBulletManager:
         for i in sorted(bullets_to_remove, reverse=True):
             if i < len(self.bullets):
                 self.bullets.pop(i)
-    
-    #define function to check if bullet has hit player
+
+    # define function to check if bullet has hit player
     def check_player_collision(self, player):
         for bullet in self.bullets:
             if (

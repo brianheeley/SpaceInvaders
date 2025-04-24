@@ -7,7 +7,8 @@ from picture import Picture
 import gameinterface
 import threading
 
-#define function that plays sound when an option on menu is selected
+
+# define function that plays sound when an option on menu is selected
 def playClick():
     stdaudio.playFile("clickSound")
 
@@ -49,8 +50,8 @@ def help():
         stddraw.show(0)
 
         if stddraw.hasNextKeyTyped():
-            
-            #save key that was pressed by user in variable selectedKey
+
+            # save key that was pressed by user in variable selectedKey
             selectedKey = stddraw.nextKeyTyped()
 
             # return back to title page if [B] is pressed, otherwise continue displaying instructions

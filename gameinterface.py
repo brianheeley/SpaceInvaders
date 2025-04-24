@@ -13,7 +13,8 @@ import threading
 def playClick():
     stdaudio.playFile("clickSound")
 
-#define function that sets title screen of the game
+
+# define function that sets title screen of the game
 def drawTitleScreen():
 
     TSBackground = Picture("assets/TSBackground.jpg")
