@@ -1,8 +1,32 @@
-# SpaceInvaders
+# COSMIC CLASH
+## Project Contributors:
+- Brian Heeley
+- Sofia Bollo
+- Corne Thom
 
-**Features go here**
 
-- Added bunkers which act as protection for player and get removed after three hits from enemy bullets, or if hit by player.
+## Game Features
+
+- **Core Features:**
+  - Title screen with instructions help menu
+  - Shooter that can move left and right
+  - Turret that can rotate and shoots bullets in direction of rotation
+  - Enemies that move together, back and forth, decending when reaching an edge
+  - Enemies are destroyed when hit by a bullet, destroying the bullet in the process
+  - Game is over when enemies touch the ground or player, and a game over screen is displayed, until the player wishes to restart
+  - Score is kept at the top left of the screen and is increased when enemies are destroyed
+  - Game quits when or 'X' is pressed, as specified in the main menu and help screens
+
+- **Extended Features:**
+- Improved graphics including player, enemy, bunker and powerup icons, as well as a background on the menus
+- Added sound effects including menu selection, enemy explosion, power-up activation and level completion
+- Levels become more difficult as the player progresses, where enemy speed and fire rate is increased
+- Player has extra lives (starting with 3)
+- Enemies attack back at the player by shooting bullets downwards
+- Bunkers to protect the player (each has 3 health), which regenerate after each level is completed
+- Added power-ups that once collected, are activated by pressing 'F'. Power-ups include, faster player shooting, spread shot (multiple bullets per shot), nuke (destroys all enemies), and extra lives.
+- Added visual effects including enemy explosions and a background stars, which create depth to the game
+
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
