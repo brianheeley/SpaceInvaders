@@ -41,7 +41,7 @@ class BunkerManager:
 
         for i in range(3):
             x = 150 + i * x_spacing
-            self.create_bunkers(x, y, 125, 90)
+            self.create_bunkers(x, y, 200, 90)
 
     def update(self, enemy_bullet_manager, player_bullet_manager):
         bunkers_to_remove = []
@@ -70,11 +70,3 @@ class BunkerManager:
         for i in sorted(bunkers_to_remove, reverse=True):
             if i < len(self.bunkers):
                 self.bunkers.pop(i)
-
-    # Regenerate bunkers after level up
-    def regenerate(self):
-
-        self.bunkers.clear()
-        self.populate()
-
-
