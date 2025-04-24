@@ -9,6 +9,7 @@ class Bunker:
         self.width = width
         self.height = height
         self.picture = picture.Picture("assets/bunkers.png")
+        self.health = 3
 
     def draw(self):
         stddraw.picture(
@@ -43,19 +44,20 @@ class BunkerManager:
             bunker = self.bunkers[i]
             bunker.draw()
 
+            # Check for enemy bullet collisions
             enemy_hit = enemy_bullet_manager.check_bunker_collisions(bunker)
             if enemy_hit:
                 enemy_bullet_manager.removeBullet(bunker)
+                bunker.health -= 1
 
-                # ADD FUNCTIONALITY TO REMOVE HEALTH HERE
-
-                bunkers_to_remove.append(i)
+            # Check for player bullet collisions
             player_hit = player_bullet_manager.check_bunker_collisions(bunker)
             if player_hit:
                 player_bullet_manager.removeBullet(bunker)
+                bunker.health -= 1
 
-                # ADD FUNCTIONALITY TO REMOVE HEALTH HERE
-
+            # Add to bunker removal list if no health
+            if bunker.health <= 0:
                 bunkers_to_remove.append(i)
 
         # Remove bunkers that were hit

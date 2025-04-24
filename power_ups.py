@@ -136,7 +136,7 @@ class PowerUp:
 
         # Check for bullet collisions
         for bullet in bullet_manager.bullets[:]:  # Create safe copy
-            if self.getDistance(player.x, player.y) <= self.size + bullet.size:
+            if self.getDistance(bullet.x, bullet.y) <= self.size + bullet.size:
                 try:
                     bullet_manager.bullets.remove(bullet)
                     return True

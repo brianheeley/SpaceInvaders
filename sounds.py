@@ -22,7 +22,7 @@ class SoundManager:
                 with SoundManager._sound_lock:
                     # Only clear if this is still the current sound
                     if SoundManager._current_sound == sound_id:
-                        SoundManager._current_sound == None
+                        SoundManager._current_sound = None
 
             except Exception as e:
                 print(f"Error playing {file}: {e}")
