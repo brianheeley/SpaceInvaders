@@ -18,14 +18,14 @@
   - Game quits when or 'X' is pressed, as specified in the main menu and help screens
 
 - **Extended Features:**
-- Improved graphics including player, enemy, bunker and powerup icons, as well as a background on the menus
-- Added sound effects including menu selection, enemy explosion, power-up activation and level completion
-- Levels become more difficult as the player progresses, where enemy speed and fire rate is increased
-- Player has extra lives (starting with 3)
-- Enemies attack back at the player by shooting bullets downwards
-- Bunkers to protect the player (each has 3 health), which regenerate after each level is completed
-- Added power-ups that once collected, are activated by pressing 'F'. Power-ups include, faster player shooting, spread shot (multiple bullets per shot), nuke (destroys all enemies), and extra lives.
-- Added visual effects including enemy explosions and a background stars, which create depth to the game
+  - Improved graphics including player, enemy, bunker and powerup icons, as well as a background on the menus
+  - Added sound effects including menu selection, enemy explosion, power-up activation and level completion
+  - Levels become more difficult as the player progresses, where enemy speed and fire rate is increased
+  - Player has extra lives (starting with 3)
+  - Enemies attack back at the player by shooting bullets downwards
+  - Bunkers to protect the player (each has 3 health), which regenerate after each level is completed
+  - Added power-ups that once collected, are activated by pressing 'F'. Power-ups include, faster player shooting, spread shot (multiple bullets per shot), nuke (destroys all enemies), and extra lives.
+  - Added visual effects including enemy explosions and a background stars, which create depth to the game
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
