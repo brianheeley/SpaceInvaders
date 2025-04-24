@@ -1,59 +1,59 @@
 import stdaudio
 import threading
 import time
+import subprocess
+import sys
+import os
 
 
 class SoundManager:
-
-    _current_sound_thread = None
+    _current_sound_process = None
     _sound_lock = threading.Lock()
-    _stop_event = threading.Event()
 
     @staticmethod
     def play_sound(file):
-        def _play_sound_thread(stop_event, sound_id):
-            try:
-                with SoundManager._sound_lock:
-                    # Mark this as current sound
-                    SoundManager._current_sound_id = sound_id
+        with SoundManager._sound_lock:
+            # Stop current sound
+            SoundManager._terminate_current_sound()
 
-                if not stop_event.is_set():
-                    stdaudio.playFile(file)
+            try:
+                # Create Python process to play sound
+                sound_script = f"import stdaudio; " f"stdaudio.playFile('{file}')"
+
+                # Start process
+                process = subprocess.Popen(
+                    [sys.executable, "-c", sound_script],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                )
+
+                # Store process
+                SoundManager._current_sound_process = process
 
             except Exception as e:
-                print(f"Error playing {file}: {e}")
+                print(f"Error starting sound process for {file}: {e}")
 
-        # Stop any currently playing sounds
-        SoundManager.stop_all_sounds()
+    @staticmethod
+    def _terminate_current_sound():
+        if SoundManager._current_sound_process is not None:
+            try:
+                # Kill process
+                SoundManager._current_sound_process.terminate()
 
-        # Reset stop event
-        SoundManager._stop_event.clear()
+                # Wait for shutdown
+                try:
+                    SoundManager._current_sound_process.wait(timeout=0.2)
+                except subprocess.TimeoutExpired:
+                    # Force kill if not responding
+                    SoundManager._current_sound_process.kill()
 
-        # Create unique sound ID
-        sound_id = f"{file}_{time.time()}"
-
-        # Start new sound thread
-        sound_thread = threading.Thread(
-            target=_play_sound_thread, args=(SoundManager._stop_event, sound_id)
-        )
-        sound_thread.daemon = True
-
-        with SoundManager._sound_lock:
-            SoundManager._current_sound_thread = sound_thread
-            SoundManager._current_sound_id = sound_id
-
-        sound_thread.start()
-        return sound_thread
+                # Remove currently playing sound
+                SoundManager._current_sound_process = None
+            except Exception as e:
+                print(f"Error terminating sound process: {e}")
 
     @staticmethod
     def stop_all_sounds():
-
-        # Stop any playing sounds
-        SoundManager._stop_event.set()
-
-        # Stop event for future sounds
-        SoundManager._stop_event = threading.Event()
-
+        # Stop currently playing sounds
         with SoundManager._sound_lock:
-            # Clear current sound thread
-            SoundManager._current_sound_thread = None
+            SoundManager._terminate_current_sound()

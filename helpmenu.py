@@ -19,7 +19,7 @@ def help():
     stddraw.picture(helpBackground)
 
     helpmenuTitle = "COSMIC CLASH: How to play"
-    stddraw.setPenColor(stddraw.BLACK)
+    stddraw.setPenColor(stddraw.WHITE)
     stddraw.setFontFamily("Courier")
     stddraw.setFontSize(38)
     stddraw.text(400, 450, helpmenuTitle)
@@ -29,6 +29,7 @@ def help():
     step3 = "Move Right [D]"
     step4 = "Rotate Right [E]"
     step5 = "Shoot [SpaceBar]"
+    step6 = "Use power-up [F]"
     stddraw.setFontFamily("Times New Roman")
     stddraw.setFontSize(25)
     stddraw.text(400, 400, step1)
@@ -36,6 +37,7 @@ def help():
     stddraw.text(400, 300, step3)
     stddraw.text(400, 250, step4)
     stddraw.text(400, 200, step5)
+    stddraw.text(400, 150, step6)
 
     backButton = "Back to home screen [B]"
     stddraw.text(400, 120, backButton)
