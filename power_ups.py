@@ -6,6 +6,7 @@ from player import Player
 from bullets import BulletManager
 from enemies import EnemyManager
 from sounds import SoundManager
+import picture
 
 
 class PowerUpManager:
@@ -21,7 +22,6 @@ class PowerUpManager:
             if not power_up.b_posess:
                 # Test if power up is hit by player
                 if power_up.hit(player, bullet_manager):
-                    print("hit")
                     # Remove other pu's if there are more than 1 in posession
                     for other_power_up in self.power_ups[:]:
                         if other_power_up.b_posess == True:
@@ -35,8 +35,8 @@ class PowerUpManager:
                     power_up._draw()
             else:
                 # Draw power up icon that is in posession in the corner
-                sd.setPenColor(power_up.colour)
-                sd.filledSquare(20, 20, power_up.size / 2)
+                pic = power_up.pic
+                sd.picture(pic, 20, 20, 20, 20)
 
     def activate(
         self, bullet_manager: BulletManager, player: Player, enemy_manager: EnemyManager
@@ -49,24 +49,18 @@ class PowerUpManager:
                 )  # Deactivate any current power up
                 self.b_active = True
                 power_up.b_posess = False
-                print("activate pu")
-                print(self.power_ups)
 
                 if power_up.type == 1:
                     bullet_manager.cooldown = 11
-                    print("fast shoot")
                 elif power_up.type == 2:
                     bullet_manager.spreadshot = True
-                    print("spread shot")
                 elif power_up.type == 3:  # Kill all enemies on screen
-                    print("nuke")
                     SoundManager.play_sound("assets/explode")
                     enemy_manager.destroyAll()
                     self.b_active = False
                     sd.show(1300)
                 elif power_up.type == 4:
                     player.lives += 1
-                    print("extra life")
                     self.b_active = False
                 else:
                     self.b_active = False
@@ -74,7 +68,6 @@ class PowerUpManager:
                 self.power_ups.remove(power_up)
 
     def deactivate(self, bullet_manager: BulletManager, player: Player):
-        print("deactivate pu")
         self.b_active = False
         bullet_manager.cooldown = 30
         bullet_manager.spreadshot = False
@@ -109,21 +102,24 @@ class PowerUp:
 
         self.size = 15
         self.b_posess: bool = False
-        self.colour = color.GRAY
+        self.colour = sd.WHITE
+        self.pic = picture.Picture("assets/extra_life_powerup.png")
         match self.type:
             case 1:
-                self.colour = color.YELLOW
+                self.pic = picture.Picture("assets/speed_powerup.png")
+                self.colour = sd.YELLOW
             case 2:
-                self.colour = color.BLUE
+                self.pic = picture.Picture("assets/multishoot_powerup.png")
+                self.colour = sd.BLUE
             case 3:
-                self.colour = color.RED
+                self.pic = picture.Picture("assets/nuke_powerup.jpg")
+                self.colour = sd.RED
             case 4:
-                self.colour = color.GREEN
+                self.colour = sd.GREEN
 
     def _draw(self):
-        sd.setPenColor(self.colour)
-        sd.setPenRadius(0.01)
-        sd.filledSquare(self.x, self.y, self.size)
+        self.size = 30
+        sd.picture(self.pic, self.x, self.y, 30, 30)
 
     def _move(self):
         self.y -= self.speed / 2

@@ -11,6 +11,7 @@ from power_ups import PowerUpManager, PowerUp
 from picture import Picture
 from effects import EffectsManager
 from bunker import Bunker, BunkerManager
+from sounds import SoundManager
 
 
 # Function to display game over screen with score
@@ -147,7 +148,8 @@ def main():
             # Go to next level when all enemies killed
             if len(enemy_manager.enemies) == 0:
                 game_state = "win"
-
+                SoundManager.play_sound("assets/levelUp")
+                stddraw.show(3000)
             # Draw player, turret, and bunkers
             player.draw()
             turret.draw()
@@ -164,6 +166,7 @@ def main():
             power_up_manager.move(player, bullet_manager)  # Move and draw power ups
             if keys[stddraw.K_f]:  # Activate on player press 'F'
                 power_up_manager.activate(bullet_manager, player, enemy_manager)
+                SoundManager.play_sound("assets/powerUp")
             power_up_manager.timePowerUp(bullet_manager, player)
 
             # Draw player score and lives

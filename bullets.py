@@ -56,8 +56,6 @@ class BulletManager:
 
             self.current_cooldown = self.cooldown
 
-            # SoundManager.play_sound("assets/playerShoot")
-
     def removeBullet(self, bunker):
         bullets_to_remove = []
 
