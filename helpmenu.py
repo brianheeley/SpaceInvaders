@@ -1,5 +1,3 @@
-# Sofia Bollo
-
 import stddraw
 import stdaudio
 import sys
