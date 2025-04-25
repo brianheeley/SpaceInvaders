@@ -197,7 +197,6 @@ def main():
                 power_up_manager.spawn_rate += min(
                     ((player.game_timer / 160000)**2), 10
                 )
-                print(power_up_manager.spawn_rate)
                 bullet_manager.bullets.clear()
                 enemy_bullet_manager.bullets.clear()
                 power_up_manager.power_ups.clear()
