@@ -14,11 +14,11 @@ class PowerUpManager:
         self.spawn_rate: float = spawn_rate  # probability to spawn
 
         self.power_ups: list = []
-        self.timer = 5000  # Duration of power ups
+        self.timer = 5000  # Duration of power ups 
         self.b_active = False
 
     def move(self, player: Player, bullet_manager: BulletManager):
-        for power_up in self.power_ups:
+        for power_up in self.power_ups[:]:
             if not power_up.b_posess:
                 # Test if power up is hit by player
                 if power_up.hit(player, bullet_manager):
@@ -38,7 +38,7 @@ class PowerUpManager:
                 pic = power_up.pic
                 sd.picture(pic, 20, 20, 20, 20)
 
-    def activate(self, bullet_manager, player, enemy_manager, score):
+    def activate(self, bullet_manager, player, enemy_manager, score) -> int:
         # Return score to add for nuke destroying remaining enemies
         add_score = 0
 
@@ -71,19 +71,20 @@ class PowerUpManager:
         return add_score
 
     def deactivate(self, bullet_manager: BulletManager, player: Player):
+        # Reset all the possible power up variables
         self.b_active = False
         bullet_manager.cooldown = 30
         bullet_manager.spreadshot = False
         self.timer = 5000
 
     def timePowerUp(self, bullet_manager: BulletManager, player: Player):
-
         if self.timer <= 0:
             self.deactivate(bullet_manager, player)
         elif self.b_active:
             self.timer -= 10
 
     def screenFlash(self, power_up):
+        # Flash on screen to indicate activation
         sd.setPenColor(power_up.colour)
         sd.setPenRadius(0.02)
         sd.rectangle(0, 0, 800, 600)
@@ -97,7 +98,7 @@ class PowerUp:
 
     def __init__(self, type, x, y, speed):
         self.type: int = (
-            type  # 1--fastShoot 2--spreadShot 3--nuke 4--extraLife 5--instantKill
+            type  # 1--fastShoot 2--spreadShot 3--nuke 4--extraLife
         )
         self.x: float = x
         self.y: float = y
@@ -107,6 +108,7 @@ class PowerUp:
         self.b_posess: bool = False
         self.colour = sd.WHITE
         self.pic = picture.Picture("assets/extra_life_powerup.png")
+        # Set flash and icon according to the type
         match self.type:
             case 1:
                 self.pic = picture.Picture("assets/speed_powerup.png")

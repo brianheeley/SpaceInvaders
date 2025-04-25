@@ -91,7 +91,7 @@ def main():
                 enemy_bullet_manager = EnemyBulletManager(10, 10, 3)
                 enemy_manager = EnemyManager(8, 4, move_cooldown)
                 bunker = Bunker(250, 250, 200, 90)
-                power_up_manager = PowerUpManager(1)  # Temporary spawn rate of 1
+                power_up_manager = PowerUpManager(0.2)  # Start with spawn rate of 0.2
                 score = 0
 
         # Run when game has started
@@ -151,7 +151,7 @@ def main():
             power_up_type = 0
 
             # Power ups implementation
-            if player.game_timer % 10000 == 0:
+            if player.game_timer % 10000 == 0 and player.game_timer != 0:
                 if power_up_manager.spawn_rate >= random.random():
                     power_up_type = random.randint(1, 4)
                     new_power_up = PowerUp(
@@ -167,7 +167,7 @@ def main():
                     bullet_manager, player, enemy_manager, score
                 )
 
-            power_up_manager.timePowerUp(bullet_manager, player)
+            power_up_manager.timePowerUp(bullet_manager, player) # Time duration of power up
 
             # Draw player score and lives
             stddraw.setPenColor(stddraw.WHITE)
@@ -195,8 +195,9 @@ def main():
                 bunker_manager.regenerate()
 
                 power_up_manager.spawn_rate += min(
-                    math.exp(player.game_timer / 100000) / 20, 20
+                    ((player.game_timer / 160000)**2), 10
                 )
+                print(power_up_manager.spawn_rate)
                 bullet_manager.bullets.clear()
                 enemy_bullet_manager.bullets.clear()
                 power_up_manager.power_ups.clear()
