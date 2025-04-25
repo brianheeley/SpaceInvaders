@@ -13,13 +13,16 @@ class Bullet:
         self.dy = dy
         self.size = size
 
+    # Change bullet position
     def update(self):
         self.x += self.dx
         self.y += self.dy
 
+    # Draw bullet on screen
     def draw(self):
         stddraw.filledCircle(self.x, self.y, self.size)
 
+    # Check if bullet is off the screen
     def out_of_bounds(self):
         return self.x < 0 or self.x > 800 or self.y < 0 or self.y > 600
 
@@ -36,6 +39,7 @@ class BulletManager:
         self.spreadshot = False
         self.effects_manager = EffectsManager()
 
+    # Add bullets when shooting
     def create_bullet(self, x, y, angle):
         if self.current_cooldown == 0 and len(self.bullets) < self.max_bullets:
 
@@ -56,6 +60,7 @@ class BulletManager:
 
             self.current_cooldown = self.cooldown
 
+    # Remove bullet  from screen
     def removeBullet(self, bunker):
         bullets_to_remove = []
 
@@ -73,6 +78,7 @@ class BulletManager:
             if i < len(self.bullets):
                 self.bullets.pop(i)
 
+    # Check all bullets and remove if needed
     def update(self):
         stddraw.setPenColor(stddraw.WHITE)
 
@@ -109,20 +115,21 @@ class BulletManager:
                     and bullet.y > enemy.y - enemy.height / 2
                     and bullet.y < enemy.y + enemy.height / 2
                 ):
+                    # Add explosion effect when enemy destroyed
                     self.effects_manager.add_explosion(
                         enemy.x, enemy.y, enemy.width, enemy.height, 100
                     )
                     bullets_to_remove.append(i)
                     enemies_to_hit.append(j)
                     score += 10
-                    break  # Exit inner loop once collision is found
+                    break
 
-        # Remove bullets from heighest index first
+        # Remove bullets safely
         for i in sorted(bullets_to_remove, reverse=True):
-            if i < len(self.bullets):  # Safety check
+            if i < len(self.bullets):
                 self.bullets.pop(i)
 
-        # Process enemy hits
+        # Process bullets hitting an enemy
         for i in sorted(enemies_to_hit, reverse=True):  # Process in rev order
             if i < len(enemy_manager.enemies):  # Safety check
                 enemy = enemy_manager.enemies[i]
@@ -132,6 +139,7 @@ class BulletManager:
 
         return score
 
+    # Check bullets for collision with bunkers
     def check_bunker_collisions(self, bunker):
         for bullet in self.bullets:
             if (
@@ -151,12 +159,14 @@ class EnemyBulletManager:
         self.speed = speed
         self.bullets = []
 
+    # Add enemy bullet to screen
     def create_bullet(self, x, y):
         if len(self.bullets) < self.max_bullets:
             dx = 0
             dy = -self.speed
             self.bullets.append(Bullet(x, y, dx, dy, self.size))
 
+    # Move and draw enemy bullets and remove if off screen
     def update(self):
         stddraw.setPenColor(stddraw.YELLOW)
 
@@ -174,7 +184,7 @@ class EnemyBulletManager:
             if i < len(self.bullets):
                 self.bullets.pop(i)
 
-    # define function to check if bullet has collided with bunker
+    # Check for if enemy bullet collided with bunker
     def check_bunker_collisions(self, bunker):
         for bullet in self.bullets:
 
@@ -187,7 +197,7 @@ class EnemyBulletManager:
                 return True
         return False
 
-    # define function to remove bullets if they hit bunker
+    # Remove enemy bullet if there is a collision with a bunker
     def removeBullet(self, bunker):
 
         stddraw.setPenColor(stddraw.YELLOW)
@@ -210,7 +220,7 @@ class EnemyBulletManager:
             if i < len(self.bullets):
                 self.bullets.pop(i)
 
-    # define function to check if bullet has hit player
+    # Check for if an enemy bullet has hit the player
     def check_player_collision(self, player):
         for bullet in self.bullets:
             if (

@@ -1,14 +1,14 @@
 import stddraw
-import stdaudio
 import sys
 from picture import Picture
 import gameinterface
 import threading
+from sounds import SoundManager
 
 
 # define function that plays sound when an option on menu is selected
 def playClick():
-    stdaudio.playFile("clickSound")
+    SoundManager.play_sound("assets/clickSound")
 
 
 # defining help function that gives instructions when [H] is pressed

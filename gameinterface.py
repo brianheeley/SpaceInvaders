@@ -1,15 +1,15 @@
 import stddraw
 import sys
 import stdio
-import stdaudio
 from picture import Picture
 import helpmenu
 import threading
+from sounds import SoundManager
 
 
 # defining function that makes click sound on selection
 def playClick():
-    stdaudio.playFile("clickSound")
+    sounds.play_sound("assets/clickSound")
 
 
 # define function that sets title screen of the game

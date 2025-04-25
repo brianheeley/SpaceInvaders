@@ -12,14 +12,16 @@ class Player:
 
         self.pic = picture.Picture("assets/ship.jpg")
         self.lives = 3
-        self.game_timer = 0  # Time in ms
+        self.game_timer = 0
 
+    # Move player's position on screen
     def move(self, keys):
         if keys[stddraw.K_a] and self.x > self.width / 2:
             self.x -= self.speed
         if keys[stddraw.K_d] and self.x < 800 - self.width / 2:
             self.x += self.speed
 
+    # Draw player on screen
     def draw(self):
         stddraw.setPenColor(stddraw.GREEN)
         stddraw.picture(

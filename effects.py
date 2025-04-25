@@ -13,10 +13,12 @@ class ExplosionEffect:
         self.current_frame = 0
         self.explosion_pic = None
 
+    # Increase explosion effect timer
     def update(self):
         self.current_frame += 1
         return self.current_frame <= self.duration
 
+    # Draw explosion effect on screen
     def draw(self):
         stddraw.picture(
             self.explosion_pic,
@@ -34,9 +36,11 @@ class Star:
         self.radius = radius
         self.speed = speed
 
+    # Move star
     def update(self):
         self.y -= self.speed
 
+    # Draw star on screen
     def draw(self):
         stddraw.filledCircle(self.x, self.y, self.radius)
 
@@ -47,12 +51,12 @@ class EffectsManager:
         self.stars = []
         self.max_stars = 100
 
-        # Load explosion image once
+        # Load explosion image
         self.explosion_pic = picture.Picture("assets/explosion.jpg")
 
+    # Add explosion effect
     def add_explosion(self, x, y, width, height, duration=100):
         explosion = ExplosionEffect(x, y, width, height, duration)
-        # Use shared explosion picture
         explosion.explosion_pic = self.explosion_pic
         self.effects.append(explosion)
 
@@ -83,6 +87,7 @@ class EffectsManager:
         for i in sorted(stars_to_remove, reverse=True):
             self.stars.pop(i)
 
+    # Add star to screen
     def add_star(self):
         if len(self.stars) < self.max_stars:
 

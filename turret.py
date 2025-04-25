@@ -12,6 +12,7 @@ class Turret:
         self.end_y = 0
         self.update_end()
 
+    # Change turret end position based on rotation angle
     def update_end(self):
         self.end_x = self.player.x + self.length * math.cos(math.radians(self.angle))
         self.end_y = (
@@ -20,6 +21,7 @@ class Turret:
             + self.length * math.sin(math.radians(self.angle))
         )
 
+    # Rotate turret if keys pressed
     def update(self, keys):
         if keys[stddraw.K_q] and self.angle < 180:
             self.angle += self.speed
@@ -29,6 +31,7 @@ class Turret:
         self.angle = max(0, min(180, self.angle))
         self.update_end()
 
+    # Draw turret on screen
     def draw(self):
         stddraw.setPenColor(stddraw.DARK_GRAY)
         stddraw.setPenRadius(2.5)

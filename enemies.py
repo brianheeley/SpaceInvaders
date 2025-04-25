@@ -15,10 +15,12 @@ class Enemy:
         self.is_exploding = False
         self.explosion_timer = 0
 
+    # Move enemy on screen
     def move(self, dx, dy):
         self.x += dx
         self.y += dy
 
+    # Draw enemy on screen
     def draw(self):
         if self.is_exploding:
             stddraw.picture(
@@ -47,9 +49,11 @@ class EnemyManager:
         self.move_speed = 10
         self.populate()
 
+    # Add enemy to screen
     def create_enemy(self, x, y, width, height):
         self.enemies.append(Enemy(x, y, width, height))
 
+    # Add all enemies to screen
     def populate(self):
 
         x_spacing = 700 / (self.num_enemies + 1)
@@ -61,6 +65,8 @@ class EnemyManager:
                 current_x = x_spacing * (col + 1)
                 self.create_enemy(current_x, current_y, 40, 20)
 
+    # Check if enemy should change direction, move all enemies and check for
+    # removal conditions
     def update(self):
 
         if self.current_cooldown <= 0:
@@ -102,12 +108,14 @@ class EnemyManager:
             if i < len(self.enemies):
                 self.enemies.pop(i)
 
+    # Check if an enemy has reached the bottom of the screen
     def check_reached_bottom(self, player_top_y):
         for enemy in self.enemies:
             if enemy.y - enemy.height / 2 <= player_top_y:
                 return True
         return False
 
+    # Add bullet from enemy position
     def shoot(self, enemy_bullet_manager, chance):
 
         if self.current_cooldown == 0 and random.random() < chance:
@@ -118,9 +126,9 @@ class EnemyManager:
                     shooter.x, shooter.y - shooter.height / 2
                 )
 
+    # Remove all enemies for nuke powerup
     def destroyAll(self):
-        # for enemy in self.enemies[:]:
-        # explode enemy
+
         for enemy in self.enemies:
             enemy.is_exploding = True
             enemy.draw()
