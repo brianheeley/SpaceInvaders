@@ -94,4 +94,3 @@ class EffectsManager:
             star_x = random.randint(0, 800)
             star_y = random.randint(0, 600)
             self.stars.append(Star(star_x, star_y, 1, 0.5))
-
