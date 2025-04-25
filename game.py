@@ -91,7 +91,7 @@ def main():
                 enemy_bullet_manager = EnemyBulletManager(10, 10, 3)
                 enemy_manager = EnemyManager(8, 4, move_cooldown)
                 bunker = Bunker(250, 250, 200, 90)
-                power_up_manager = PowerUpManager(0.2)  # Start with spawn rate of 0.2
+                power_up_manager = PowerUpManager(0.3)  # Start with spawn rate of 0.3
                 score = 0
 
         # Run when game has started
