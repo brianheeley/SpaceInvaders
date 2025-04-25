@@ -78,6 +78,7 @@ class PowerUpManager:
         self.timer = 5000
 
     def timePowerUp(self, bullet_manager: BulletManager, player: Player):
+        # Process power up active timer
         if self.timer <= 0:
             self.deactivate(bullet_manager, player)
         elif self.b_active:
@@ -123,10 +124,12 @@ class PowerUp:
                 self.colour = sd.GREEN
 
     def _draw(self):
+        # Draw power up on screen
         self.size = 30
         sd.picture(self.pic, self.x, self.y, 30, 30)
 
     def _move(self):
+        # Move power up position on screen
         self.y -= self.speed / 2
 
     def hit(self, player: Player, bullet_manager: BulletManager) -> bool:
@@ -147,11 +150,15 @@ class PowerUp:
         return False
 
     def getDistance(self, x, y) -> float:
+        # Calculate distance between powerup and given x and y
         return math.sqrt((self.x - x) ** 2 + (self.y - y) ** 2)
 
     def outOfBounds(self) -> bool:
+        # Check for powerup off screen
         if self.x < 0 or self.x > 800:
             return True
         if self.y < 0 or self.y > 1000:
             return True
         return False
+
+
