@@ -5,6 +5,14 @@ import subprocess
 import sys
 import os
 
+"""
+The following sources were utilised for the creation of this code
+Princeton introduction to CS: https://introcs.cs.princeton.edu/python/home/
+Python threading docs: https://docs.python.org/3/library/threading.html
+Python subprocess docs: https://docs.python.org/3/library/subprocess.html
+Grok AI for debugging: https://grok.com/
+"""
+
 
 class SoundManager:
     _current_sound_process = None

@@ -38,9 +38,10 @@ class PowerUpManager:
                 pic = power_up.pic
                 sd.picture(pic, 20, 20, 20, 20)
 
-    def activate(
-        self, bullet_manager: BulletManager, player: Player, enemy_manager: EnemyManager
-    ):
+    def activate(self, bullet_manager, player, enemy_manager, score):
+        # Return score to add for nuke destroying remaining enemies
+        add_score = 0
+
         # activate the power up that player has
         for power_up in self.power_ups:
             if power_up.b_posess == True:
@@ -56,6 +57,7 @@ class PowerUpManager:
                     bullet_manager.spreadshot = True
                 elif power_up.type == 3:  # Kill all enemies on screen
                     SoundManager.play_sound("assets/explode")
+                    add_score = score + 10 * len(enemy_manager.enemies)
                     enemy_manager.destroyAll()
                     self.b_active = False
                     sd.show(1300)
@@ -66,6 +68,7 @@ class PowerUpManager:
                     self.b_active = False
                 self.screenFlash(power_up)
                 self.power_ups.remove(power_up)
+        return add_score
 
     def deactivate(self, bullet_manager: BulletManager, player: Player):
         self.b_active = False

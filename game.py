@@ -148,18 +148,25 @@ def main():
             turret.draw()
             bunker_manager.draw()
 
+            power_up_type = 0
+
             # Power ups implementation
             if player.game_timer % 10000 == 0:
                 if power_up_manager.spawn_rate >= random.random():
+                    power_up_type = random.randint(1, 4)
                     new_power_up = PowerUp(
-                        random.randint(1, 4), 33 + random.random() * 767, 610, 1
+                        power_up_type, 33 + random.random() * 767, 610, 1
                     )
                     power_up_manager.power_ups.append(new_power_up)
 
             power_up_manager.move(player, bullet_manager)  # Move and draw power ups
             if keys[stddraw.K_f]:  # Activate on player press 'F'
-                power_up_manager.activate(bullet_manager, player, enemy_manager)
-                SoundManager.play_sound("assets/powerUp")
+
+                # Add to score if nuke powerup used
+                score += power_up_manager.activate(
+                    bullet_manager, player, enemy_manager, score
+                )
+
             power_up_manager.timePowerUp(bullet_manager, player)
 
             # Draw player score and lives
